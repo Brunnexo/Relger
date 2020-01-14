@@ -37,7 +37,7 @@ public class Executar {
 	public static void main(String[] e) throws IOException, InterruptedException, ExecutionException, SQLException
 	{
 		LookAndFeel.alterar("Nimbus");
-
+		
 		Movimentos mov = new Movimentos();
 		mov.esmaecer(new Progresso("Conectando", "Conectando com o servidor...<br />O tempo depende da qualidade da conexão").mostrar(), true);
 

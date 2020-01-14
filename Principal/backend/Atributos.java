@@ -4,16 +4,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAdjusters;
-import java.util.GregorianCalendar;
 
 import mssql.Extra;
 
 public class Atributos
 {
-	LocalDate ld = LocalDate.parse(dataCondicionalFormatada());
+	LocalDate ld = WebAPI.dataAtual();
+	LocalDateTime ldt = WebAPI.horaAtual();
+	LocalDate ldCondicional = LocalDate.parse(this.dataCondicionalFormatada());
 
+	private String dataOvr;
+	
 	final static int TEMPO_BANCO_HORAS = 78;
 	final static int TEMPO_HORA_EXTRA_DIARIA = 60;
 
@@ -27,7 +31,7 @@ public class Atributos
 	private boolean horista, mensalista;
 	//Atributos do funcionário
 
-	private boolean override;
+	private boolean override, dataOverride;
 	private boolean hExtraMensalista;
 
 
@@ -71,11 +75,26 @@ public class Atributos
 	public void sethExtraMensalista(boolean hExtraMensalista) {
 		this.hExtraMensalista = hExtraMensalista;
 	}
+	public boolean isDataOverride() {
+		return dataOverride;
+	}
+	public void setDataOverride(boolean dataOverride) {
+		this.dataOverride = dataOverride;
+	}
 	public boolean isOverride() {
 		return override;
 	}
 	public void setOverride(boolean override) {
 		this.override = override;
+	}
+	public String getDataOvr() {
+		return dataOvr;
+	}
+	public void setDataOvr(String dataOvr) {
+		this.dataOvr = dataOvr;
+	}
+	public void setDataOvr(LocalDate dataOvr) {
+		this.dataOvr = dataOvr.toString();
 	}
 	public int getTempoTrabalhado() {
 		return tempoTrabalhado;
@@ -229,23 +248,14 @@ public class Atributos
 			{
 				this.crachaFunc = rs.getInt("CRACHA");
 				this.nomeFunc = rs.getString("NOME");
-
 				this.ele = rs.getBoolean("ELE");
-
 				this.mec = rs.getBoolean("MEC");
-
 				this.prog = rs.getBoolean("PROG");
-
 				this.eng = rs.getBoolean("ENG");
-
 				this.proj = rs.getBoolean("PROJ");
-
 				this.adm = rs.getBoolean("ADM");
-
 				this.horista = rs.getBoolean("HORISTA");
-
 				this.mensalista = rs.getBoolean("MENSALISTA");
-
 			}
 		} catch (SQLException ex) {System.out.println(ex.getMessage());}
 	}
@@ -382,31 +392,31 @@ public class Atributos
 		} catch (SQLException ex) {}	
 
 
-		LocalDate data = LocalDate.now(); 
-		GregorianCalendar gc = new GregorianCalendar();
-
-
 		String retorno = new String();
 		String[] retornoParse = new String[3];
 
-		if (this.hExtraProgramada && this.hExtraRegistro)
+		if (this.dataOverride)
 		{
-			retornoParse = dataResult.split("-");
+			
 		}
 		else
 		{
-			if (gc.get(GregorianCalendar.HOUR_OF_DAY) <= 12)
-			{
-				if(data.getDayOfWeek() == DayOfWeek.MONDAY) //Retorna a ultima sexta
-					retorno = data.with(TemporalAdjusters.previous(DayOfWeek.FRIDAY)).toString();
-				else
-					retorno = data.minusDays(1).toString();
-			}
+			if (this.hExtraProgramada && this.hExtraRegistro)
+				retornoParse = dataResult.split("-");
 			else
-				retorno = data.toString();
+			{
+				if (this.ldt.getHour() <= 12)
+				{
+					if(this.ld.getDayOfWeek() == DayOfWeek.MONDAY) //Retorna a ultima sexta
+						retorno = this.ld.with(TemporalAdjusters.previous(DayOfWeek.FRIDAY)).toString();
+					else
+						retorno = this.ld.minusDays(1).toString();
+				}
+				else
+					retorno = this.ld.toString();
 
-			retornoParse = retorno.split("-");
-
+				retornoParse = retorno.split("-");
+			}
 		}
 		return retornoParse[2] + "/" + retornoParse[1] + "/" + retornoParse[0];
 	}
@@ -425,42 +435,35 @@ public class Atributos
 			}
 		} catch (SQLException ex) {}
 
-		LocalDate dataHoje = LocalDate.now();
 		LocalDate dataHExtra;
 
 		try {
 			dataHExtra = LocalDate.parse(dataResult);
 		} catch (DateTimeParseException ex)
 		{
-			dataHExtra = dataHoje;
+			dataHExtra = this.ld;
 		}
 
-		GregorianCalendar gc = new GregorianCalendar();
-
-		if (this.hExtraProgramada && this.hExtraRegistro && (dataHoje.compareTo(dataHExtra) > 0))
-		{
+		if (this.hExtraProgramada && this.hExtraRegistro && (this.ld.compareTo(dataHExtra) > 0))
 			return dataResult;
-		}
 		else
 		{
-			if (gc.get(GregorianCalendar.HOUR_OF_DAY) <= 12)
+			if (this.ldt.getHour() <= 12)
 			{
-				if(dataHoje.getDayOfWeek() == DayOfWeek.MONDAY) //Retorna a ultima sexta
-					return dataHoje.with(TemporalAdjusters.previous(DayOfWeek.FRIDAY)).toString();
+				if(this.ld.getDayOfWeek() == DayOfWeek.MONDAY) //Retorna a ultima sexta
+					return this.ld.with(TemporalAdjusters.previous(DayOfWeek.FRIDAY)).toString();
 				else
-					return dataHoje.minusDays(1).toString();
+					return this.ld.minusDays(1).toString();
 			}
 			else
-			{
-				return dataHoje.toString();
-			}
+				return this.ld.toString();
 		}
 	}
 
 	public static String ultimoDiaUtil()
 	{
 		//Define se há registro de hora extra agendada no crachá
-		LocalDate dataHoje = LocalDate.now();
+		LocalDate dataHoje = WebAPI.dataAtual();
 
 		if(dataHoje.getDayOfWeek() == DayOfWeek.MONDAY) //Retorna a ultima sexta
 			return dataHoje.with(TemporalAdjusters.previous(DayOfWeek.FRIDAY)).toString();
@@ -483,8 +486,8 @@ public class Atributos
 
 	public boolean horaExtra()
 	{
-		boolean fimDeSemana = (ld.getDayOfWeek() == DayOfWeek.SATURDAY || ld.getDayOfWeek() == DayOfWeek.SUNDAY);
-		boolean sextaFeira = (ld.getDayOfWeek() == DayOfWeek.FRIDAY);
+		boolean fimDeSemana = (this.ldCondicional.getDayOfWeek() == DayOfWeek.SATURDAY || this.ldCondicional.getDayOfWeek() == DayOfWeek.SUNDAY);
+		boolean sextaFeira = (this.ldCondicional.getDayOfWeek() == DayOfWeek.FRIDAY);
 
 		if (this.override | this.hExtraMensalista | (this.hExtraProgramada && this.hExtraRegistro))
 			this.hExtra = true;
@@ -523,8 +526,8 @@ public class Atributos
 
 	public int tempoRestante()
 	{
-		boolean fimDeSemana = (ld.getDayOfWeek() == DayOfWeek.SATURDAY || ld.getDayOfWeek() == DayOfWeek.SUNDAY);
-		boolean sextaFeira = (ld.getDayOfWeek() == DayOfWeek.FRIDAY);
+		boolean fimDeSemana = (this.ldCondicional.getDayOfWeek() == DayOfWeek.SATURDAY || this.ldCondicional.getDayOfWeek() == DayOfWeek.SUNDAY);
+		boolean sextaFeira = (this.ldCondicional.getDayOfWeek() == DayOfWeek.FRIDAY);
 
 		int tempoRestante = 0;
 
@@ -562,7 +565,7 @@ public class Atributos
 	public int tempo()
 	{
 		//Se for SÁBADO e DOMINGO
-		if (ld.getDayOfWeek() == DayOfWeek.SATURDAY || ld.getDayOfWeek() == DayOfWeek.SUNDAY || (this.hExtraProgramada && this.hExtraRegistro))
+		if (this.ldCondicional.getDayOfWeek() == DayOfWeek.SATURDAY || this.ldCondicional.getDayOfWeek() == DayOfWeek.SUNDAY || (this.hExtraProgramada && this.hExtraRegistro))
 		{
 			if (this.isHorista())
 				return 840;
@@ -576,7 +579,7 @@ public class Atributos
 			else
 			{
 				//Se for SEXTA
-				if (ld.getDayOfWeek() == DayOfWeek.FRIDAY)
+				if (this.ldCondicional.getDayOfWeek() == DayOfWeek.FRIDAY)
 					return 462;
 				else
 					return 522;

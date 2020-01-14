@@ -12,7 +12,12 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -46,7 +51,7 @@ public class Identificacao extends JFrame
 	//Definição de Janela
 	Identificacao identificacao = this;
 
-	public boolean override = false;
+	public boolean override = false, dataOverride = false;
 
 	String[] botoes = {"Sim", "Não"};
 
@@ -98,14 +103,18 @@ public class Identificacao extends JFrame
 			public void keyReleased (KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_SHIFT)
 					override = false;
+				if (e.getKeyCode() == KeyEvent.VK_CONTROL)
+					dataOverride = false;
 			}
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_SHIFT)
 					override = true;
+				if (e.getKeyCode() == KeyEvent.VK_CONTROL)
+					dataOverride = true;
 
 				if (e.getKeyCode() == KeyEvent.VK_ENTER)
-					proximo(override);
+					proximo();
 
 			}
 		});
@@ -134,21 +143,24 @@ public class Identificacao extends JFrame
 			public void keyReleased (KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_SHIFT)
 					override = false;
+				if (e.getKeyCode() == KeyEvent.VK_CONTROL)
+					dataOverride = false;
 			}
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_SHIFT)
 					override = true;
+				if (e.getKeyCode() == KeyEvent.VK_CONTROL)
+					dataOverride = true;
 
 				if (e.getKeyCode() == KeyEvent.VK_ENTER)
-					proximo(override);
-
+					proximo();
 			}
 		});
 
 		ok.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				proximo(override);
+				proximo();
 			}
 
 		});
@@ -185,13 +197,13 @@ public class Identificacao extends JFrame
 		});
 	}
 
-	public void proximo(boolean override)
+	public void proximo()
 	{
 		att = new Atributos();
-		
+
 		boolean tokenConfere = false;
-		
-		if (override)
+
+		if (this.override)
 		{
 			String inToken = new String();
 
@@ -206,9 +218,61 @@ public class Identificacao extends JFrame
 				else if (!TokenGen.checaToken(inToken))
 					tokenConfere = false;
 			}
+			att.setOverride(tokenConfere);
 		}
 
-		att.setOverride(tokenConfere);
+		if (this.dataOverride)
+		{
+			String inToken = new String();
+			while (!tokenConfere)
+			{
+				inToken = JOptionPane.showInputDialog(null, "Insira o TOKEN", "Token", JOptionPane.QUESTION_MESSAGE);
+				System.out.println(inToken);
+				if (TokenGen.checaToken(inToken))
+					tokenConfere = true;
+				else if (inToken == null)
+					break;
+				else if (!TokenGen.checaToken(inToken))
+					tokenConfere = false;
+			}
+
+			String dataEntrada = JOptionPane.showInputDialog(null, "Insira a data: ","Data",JOptionPane.QUESTION_MESSAGE);
+			LocalDate data = null;
+
+			int escolha = 0;
+			while (escolha == 0)
+			{
+				try {
+					
+					data = LocalDate.parse(dataEntrada, DateTimeFormatter.ofPattern(""));
+					
+					att.setDataOverride(true);
+					
+					System.out.println(data.getTime());
+					
+
+					
+					LocalDate ld = LocalDate.ofEpochDay(data.getTime());
+					System.out.println(ld.toString());
+				} catch (ParseException e) {
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Data inválida!", "Erro", JOptionPane.ERROR_MESSAGE, null);					
+				}
+
+				if (data == null)
+				{
+					switch (JOptionPane.showOptionDialog(null, "Deseja continuar?", "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"SIM", "NÃO"}, 0))
+					{
+					case 0:
+						break;
+					case 1:
+						escolha = 1;
+						break;
+					}
+				}
+			}
+		}
+
 		this.override = false;
 
 		if (this.cracha.getText().equals(""))

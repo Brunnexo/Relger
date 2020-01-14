@@ -61,8 +61,6 @@ public class Resumo extends JFrame {
 	private JTextField txtNome;
 	private JTextField txtCracha;
 
-	private JButton realocar;
-
 	private JScrollPane rolagem;
 
 	private JButton apagar;
@@ -72,6 +70,7 @@ public class Resumo extends JFrame {
 	private JToggleButton hExtraMensalista;
 
 	Consulta cons;
+	private JButton minimizar;
 
 	public Resumo(int cracha, Atributos att) {
 		cons = new Consulta(cracha, att);
@@ -106,6 +105,7 @@ public class Resumo extends JFrame {
 		setAlwaysOnTop(true);
 		JLabel instru = new JLabel("RESUMO DO FUNCION\u00C1RIO - " + att.dataCondicional());
 		JButton fechar = new JButton("X");
+		fechar.setToolTipText("Fechar");
 		fechar.setFocusPainted(false);
 		editar = new JToggleButton();
 		editar.setFocusPainted(false);
@@ -123,10 +123,10 @@ public class Resumo extends JFrame {
 		chkHoraExtra = new JCheckBox("H.E.");
 		chkBancoDeHoras = new JCheckBox("B.H.");
 		apagar = new JButton("\u232B");
-		realocar = new JButton("+");
 		hExtraMensalista = new JToggleButton("H.E.");
 		consultar = new JToggleButton("\u2191");
-		
+		minimizar = new JButton("_");
+
 		//Tabela
 		modeloTabela = new DefaultTableModel(new Object[] {"FUNÇÃO", "WO", "DESCRIÇÃO", "TEMPO", "HE"}, 0);
 		tabela = new JTable(modeloTabela);
@@ -149,26 +149,14 @@ public class Resumo extends JFrame {
 		painel.add(chkHoraExtra);
 		painel.add(chkBancoDeHoras);
 		painel.add(apagar);
-		painel.add(realocar);
 		painel.add(hExtraMensalista);
 		painel.add(consultar);
+		painel.add(minimizar);
 		//Título
 		instru.setHorizontalAlignment(SwingConstants.CENTER);
 		instru.setForeground(Color.DARK_GRAY);
 		instru.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		instru.setBounds(168, 5, 513, 25);
-
-		realocar.setFocusPainted(false);
-		realocar.setToolTipText("Move a janela para o centro inferior da tela");
-		realocar.setForeground(Color.WHITE);
-		realocar.setFont(new Font("SansSerif", Font.BOLD, 12));
-		realocar.setBackground(new Color(30, 144, 255));
-		realocar.setBounds(25, -5, 35, 35);
-		realocar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				res.setLocation(x, y);
-			}
-		});
 
 		//Fechar
 		fechar.addActionListener(new ActionListener() {
@@ -412,6 +400,20 @@ public class Resumo extends JFrame {
 		consultar.setBackground(Color.DARK_GRAY);
 		consultar.setBounds(760, -5, 50, 50);
 		consultar.setFocusPainted(false);
+		
+		minimizar.setToolTipText("Minimizar");
+		minimizar.setForeground(Color.DARK_GRAY);
+		minimizar.setFont(new Font("SansSerif", Font.BOLD, 12));
+		minimizar.setFocusPainted(false);
+		minimizar.setBackground(Color.LIGHT_GRAY);
+		minimizar.setBounds(25, -5, 35, 35);
+		minimizar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setState(ICONIFIED);
+			}
+		});
+		
 		consultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cons.setVisible(consultar.isSelected());

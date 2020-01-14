@@ -12,12 +12,10 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -30,7 +28,7 @@ import javax.swing.border.EmptyBorder;
 
 import backend.Atributos;
 import backend.Executar;
-import backend.TokenGen;
+import backend.Token;
 import janelas.interacao.Resumo;
 import janelas.interacao.SelecionarAtividade;
 import mssql.Extra;
@@ -211,11 +209,11 @@ public class Identificacao extends JFrame
 			{
 				inToken = JOptionPane.showInputDialog(null, "Insira o TOKEN", "Token", JOptionPane.QUESTION_MESSAGE);
 				System.out.println(inToken);
-				if (TokenGen.checaToken(inToken))
-					tokenConfere = true;
-				else if (inToken == null)
+				if (inToken == null)
 					break;
-				else if (!TokenGen.checaToken(inToken))
+				else if (Token.checaToken(inToken))
+					tokenConfere = true;
+				else if (!Token.checaToken(inToken))
 					tokenConfere = false;
 			}
 			att.setOverride(tokenConfere);
@@ -223,54 +221,41 @@ public class Identificacao extends JFrame
 
 		if (this.dataOverride)
 		{
-			String inToken = new String();
-			while (!tokenConfere)
+			if (Token.checaToken(JOptionPane.showInputDialog(null, "Insira o TOKEN", "Token", JOptionPane.QUESTION_MESSAGE)))
 			{
-				inToken = JOptionPane.showInputDialog(null, "Insira o TOKEN", "Token", JOptionPane.QUESTION_MESSAGE);
-				System.out.println(inToken);
-				if (TokenGen.checaToken(inToken))
-					tokenConfere = true;
-				else if (inToken == null)
-					break;
-				else if (!TokenGen.checaToken(inToken))
-					tokenConfere = false;
-			}
+				String dataEntrada = JOptionPane.showInputDialog(null, "Insira a data: ","Data",JOptionPane.QUESTION_MESSAGE);
+				LocalDate data = null;
 
-			String dataEntrada = JOptionPane.showInputDialog(null, "Insira a data: ","Data",JOptionPane.QUESTION_MESSAGE);
-			LocalDate data = null;
-
-			int escolha = 0;
-			while (escolha == 0)
-			{
-				try {
-					
-					data = LocalDate.parse(dataEntrada, DateTimeFormatter.ofPattern(""));
-					
-					att.setDataOverride(true);
-					
-					System.out.println(data.getTime());
-					
-
-					
-					LocalDate ld = LocalDate.ofEpochDay(data.getTime());
-					System.out.println(ld.toString());
-				} catch (ParseException e) {
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, "Data inválida!", "Erro", JOptionPane.ERROR_MESSAGE, null);					
-				}
-
-				if (data == null)
+				int escolha = 0;
+				while (escolha == 0)
 				{
-					switch (JOptionPane.showOptionDialog(null, "Deseja continuar?", "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"SIM", "NÃO"}, 0))
-					{
-					case 0:
-						break;
-					case 1:
+					try {
+						data = LocalDate.parse(dataEntrada, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+						att.setDataOverride(true);
+						att.setDataOvr(data);
+
 						escolha = 1;
-						break;
+						if (data == null)
+						{
+							switch (JOptionPane.showOptionDialog(null, "Deseja continuar?", "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"SIM", "NÃO"}, 0))
+							{
+							case 0:
+								break;
+							case 1:
+								escolha = 1;
+								break;
+							}
+						}
+					} catch (DateTimeParseException ex)
+					{
+						JOptionPane.showMessageDialog(null, "Data inválida!", "Erro", JOptionPane.ERROR_MESSAGE, null);
+						escolha = 1;
 					}
 				}
 			}
+			else
+				JOptionPane.showMessageDialog(null, "TOKEN inválido!", "Erro", JOptionPane.ERROR_MESSAGE, null);
 		}
 
 		this.override = false;

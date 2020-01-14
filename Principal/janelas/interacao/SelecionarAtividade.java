@@ -91,6 +91,8 @@ public class SelecionarAtividade extends JFrame {
 		voltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pai.setVisible(true);
+				pai.dataOverride = false;
+				pai.override = false;
 				res.dispose();
 				dispose();
 			}
@@ -161,6 +163,8 @@ public class SelecionarAtividade extends JFrame {
 		voltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pai.setVisible(true);
+				pai.dataOverride = false;
+				pai.override = false;
 				res.dispose();
 				dispose();
 			}

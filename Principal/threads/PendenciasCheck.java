@@ -22,6 +22,5 @@ public abstract class PendenciasCheck extends TimerTask{
 			this.executado = true;
 		}
 	}
-
 	protected abstract void exec();
 }

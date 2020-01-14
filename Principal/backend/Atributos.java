@@ -17,7 +17,7 @@ public class Atributos
 	LocalDate ldCondicional = LocalDate.parse(this.dataCondicionalFormatada());
 
 	private String dataOvr;
-	
+
 	final static int TEMPO_BANCO_HORAS = 78;
 	final static int TEMPO_HORA_EXTRA_DIARIA = 60;
 
@@ -397,7 +397,8 @@ public class Atributos
 
 		if (this.dataOverride)
 		{
-			
+			String[] dataParse = this.dataOvr.split("-");
+			return dataParse[2] + "/" + dataParse[1] + "/" + dataParse[0];
 		}
 		else
 		{
@@ -444,19 +445,24 @@ public class Atributos
 			dataHExtra = this.ld;
 		}
 
-		if (this.hExtraProgramada && this.hExtraRegistro && (this.ld.compareTo(dataHExtra) > 0))
-			return dataResult;
+		if (this.dataOverride)
+			return this.dataOvr;
 		else
 		{
-			if (this.ldt.getHour() <= 12)
-			{
-				if(this.ld.getDayOfWeek() == DayOfWeek.MONDAY) //Retorna a ultima sexta
-					return this.ld.with(TemporalAdjusters.previous(DayOfWeek.FRIDAY)).toString();
-				else
-					return this.ld.minusDays(1).toString();
-			}
+			if (this.hExtraProgramada && this.hExtraRegistro && (this.ld.compareTo(dataHExtra) > 0))
+				return dataResult;
 			else
-				return this.ld.toString();
+			{
+				if (this.ldt.getHour() <= 12)
+				{
+					if(this.ld.getDayOfWeek() == DayOfWeek.MONDAY) //Retorna a ultima sexta
+						return this.ld.with(TemporalAdjusters.previous(DayOfWeek.FRIDAY)).toString();
+					else
+						return this.ld.minusDays(1).toString();
+				}
+				else
+					return this.ld.toString();
+			}
 		}
 	}
 

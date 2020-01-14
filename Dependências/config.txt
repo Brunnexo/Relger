@@ -1,0 +1,32 @@
+//Codificação ANSI
+
+[::Desktop]
+
+[terminal]	não
+[adm]		sim
+[servidor]	não
+
+[::]
+
+[::SQL]
+
+[ip]		10.144.201.115
+[porta]		1433
+[db]		relger
+[usuario]	sa
+[senha]		sa
+
+[::]
+
+[::SharedFolder]
+
+[dominio]	CORP
+[usuario]	zTzMexqvWI0Jf/0cN62iCQ==
+[senha]		e9CSXzAvdhfNYqJBn4aNdw==
+[endereco]	ju-file01
+[caminho]	/manutencao/ENGENHARIA DE AUTOMAÇÃO/Administração/Controle de horas/Planilhas de apontamento/2019/
+[arquivo]	Planilha de Relação de Projetos.xlsx
+
+[::]
+
+//

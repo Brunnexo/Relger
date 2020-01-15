@@ -17,7 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
+import javax.swing.border.EmptyBorder;
 
 public class PendenciasNotificacao extends JFrame {
 	static final int PW = 300, PH = 170;
@@ -35,9 +35,10 @@ public class PendenciasNotificacao extends JFrame {
 		painel.setRequestFocusEnabled(false);
 		painel.setFocusable(false);
 		painel.setFocusTraversalKeysEnabled(false);
-		painel.setBorder(new LineBorder(new Color(64, 64, 64), 2, true));
+		painel.setBorder(new EmptyBorder(0, 0, 0, 0));
+		
 		setContentPane(painel);
-
+		
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
 		Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
@@ -56,6 +57,8 @@ public class PendenciasNotificacao extends JFrame {
 		JLabel titulo = new JLabel("RELATÓRIO - " + tempo.toString());
 		JLabel icone = new JLabel();
 		desc = new JLabel("<html><center>" + "RELATÓRIO DE PENDÊNCIAS CRIADO!" + "</center></html>");
+		JButton ir = new JButton("<html><center>VISUALIZAR NA PASTA</center></html>");
+		JButton sair = new JButton("X");
 
 		titulo.setFocusable(false);
 		titulo.setFocusTraversalKeysEnabled(false);
@@ -72,7 +75,9 @@ public class PendenciasNotificacao extends JFrame {
 		painel.add(titulo);
 		painel.add(desc);
 		painel.add(icone);
-
+		painel.add(ir);
+		painel.add(sair);
+		
 		//Título
 		titulo.setBounds(32, 10, 235, 15);
 		titulo.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -85,9 +90,17 @@ public class PendenciasNotificacao extends JFrame {
 		desc.setBounds(10, 45, 280, 45);
 		desc.setHorizontalAlignment(SwingConstants.CENTER);
 
-		JButton ir = new JButton("<html><center>VISUALIZAR NO COMPUTADOR</center></html>");
 		ir.setBounds(48, 105, 204, 50);
-		painel.add(ir);
+
+		sair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				mov.fechar();
+			}
+		});
+		sair.setForeground(Color.WHITE);
+		sair.setFont(new Font("SansSerif", Font.BOLD, 10));
+		sair.setBackground(new Color(178, 34, 34));
+		sair.setBounds(-5, 140, 35, 35);
 
 		String caminho = arquivo.getPath();
 

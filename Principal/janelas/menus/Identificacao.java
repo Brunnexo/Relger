@@ -199,43 +199,58 @@ public class Identificacao extends JFrame
 	{
 		att = new Atributos();
 
-		if (this.override | this.dataOverride)
+		boolean tokenConfere = false;
+
+		if (this.override)
 		{
-			if (token())
+			String inToken = new String();
+
+			while (!tokenConfere)
 			{
-				if (this.override)
-					att.setOverride(true);
-				if (this.dataOverride)
+				inToken = JOptionPane.showInputDialog(null, "Insira o TOKEN", "Token", JOptionPane.QUESTION_MESSAGE);
+				System.out.println(inToken);
+				if (inToken == null)
+					break;
+				else if (Token.checaToken(inToken))
+					tokenConfere = true;
+				else if (!Token.checaToken(inToken))
+					tokenConfere = false;
+			}
+			att.setOverride(tokenConfere);
+		}
+
+		if (this.dataOverride)
+		{
+			if (Token.checaToken(JOptionPane.showInputDialog(null, "Insira o TOKEN", "Token", JOptionPane.QUESTION_MESSAGE)))
+			{
+				String dataEntrada = JOptionPane.showInputDialog(null, "Insira a data: ","Data",JOptionPane.QUESTION_MESSAGE);
+				LocalDate data = null;
+
+				int escolha = 0;
+				while (escolha == 0)
 				{
-					String dataEntrada = JOptionPane.showInputDialog(null, "Insira a data: ","Data",JOptionPane.QUESTION_MESSAGE);
-					LocalDate data = null;
+					try {
+						data = LocalDate.parse(dataEntrada, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
-					int escolha = 0;
-					while (escolha == 0)
-					{
-						try {
-							data = LocalDate.parse(dataEntrada, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+						att.setDataOverride(true);
+						att.setDataOvr(data);
 
-							att.setDataOverride(true);
-							att.setDataOvr(data);
-
-							escolha = 1;
-							if (data == null)
-							{
-								switch (JOptionPane.showOptionDialog(null, "Deseja continuar?", "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"SIM", "NÃO"}, 0))
-								{
-								case 0:
-									break;
-								case 1:
-									escolha = 1;
-									break;
-								}
-							}
-						} catch (DateTimeParseException ex)
+						escolha = 1;
+						if (data == null)
 						{
-							JOptionPane.showMessageDialog(null, "Data inválida!", "Erro", JOptionPane.ERROR_MESSAGE, null);
-							escolha = 1;
+							switch (JOptionPane.showOptionDialog(null, "Deseja continuar?", "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"SIM", "NÃO"}, 0))
+							{
+							case 0:
+								break;
+							case 1:
+								escolha = 1;
+								break;
+							}
 						}
+					} catch (DateTimeParseException ex)
+					{
+						JOptionPane.showMessageDialog(null, "Data inválida!", "Erro", JOptionPane.ERROR_MESSAGE, null);
+						escolha = 1;
 					}
 				}
 			}
@@ -295,28 +310,6 @@ public class Identificacao extends JFrame
 				}
 			}
 		}
-	}
-
-	boolean token()
-	{
-		boolean tokenConfere = false;
-		String inToken = new String();
-		while (!tokenConfere)
-		{
-			inToken = JOptionPane.showInputDialog(null, "Insira o TOKEN", "Token", JOptionPane.QUESTION_MESSAGE);
-			System.out.println(inToken);
-			if (inToken == null)
-			{
-				tokenConfere = false;
-				break;
-			}
-			else if (Token.checaToken(inToken))
-				tokenConfere = true;
-			else if (!Token.checaToken(inToken))
-				tokenConfere = false;
-		}
-
-		return tokenConfere;
 	}
 
 	static void config()

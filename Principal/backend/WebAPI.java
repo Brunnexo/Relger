@@ -12,17 +12,14 @@ public class WebAPI {
 	final static String CONTINENTE = "America";
 	final static String REGIAO = "Sao_Paulo";
 
-
 	public static LocalDate dataAtual() {
 		String data = new String();
 		LocalDate ld = LocalDate.now();
-		/*try {
+		try {
 			URL link = new URL("http://worldtimeapi.org/api/timezone/" + CONTINENTE + "/" + REGIAO + ".txt");
-
-
+			
 			BufferedReader entrada = new BufferedReader(new InputStreamReader(link.openStream()));
-
-
+			
 			String linhaEntrada;
 
 			while ((linhaEntrada = entrada.readLine()) != null)
@@ -38,21 +35,20 @@ public class WebAPI {
 			System.out.println("Data WEB: " + data.toString());
 			return ld;
 		} catch (IOException e ) {}
-		return ld;*/
-		return LocalDate.now();
+		return ld;
 	}
 
 	public static LocalDateTime horaAtual() {
 		String hora = new String();
 		LocalDateTime ldt = LocalDateTime.now();
-		
-		/*try {
+
+		try {
 			URL link = new URL("http://worldtimeapi.org/api/timezone/" + CONTINENTE + "/" + REGIAO + ".txt");
-			
+
 			BufferedReader entrada = new BufferedReader (new InputStreamReader(link.openStream()));
-			
+
 			String linhaEntrada;
-			
+
 			while ((linhaEntrada = entrada.readLine()) != null)
 			{
 				if (linhaEntrada.contains("datetime: "))
@@ -63,10 +59,7 @@ public class WebAPI {
 			ldt = LocalDateTime.parse(hora);
 			System.out.println("Hora WEB: " + hora);
 			return ldt;
-			
 		} catch (IOException e) {}
-		return ldt;*/
-		
-		return LocalDateTime.now();
+		return ldt;
 	}
 }

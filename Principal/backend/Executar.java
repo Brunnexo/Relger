@@ -77,7 +77,7 @@ public class Executar {
 					}
 				};
 				Timer temporizador = new Timer();
-				temporizador.schedule(checar, new Date(), 1000);
+				temporizador.schedule(checar, new Date(), 5000);
 			};
 		};
 

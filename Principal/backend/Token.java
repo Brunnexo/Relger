@@ -57,6 +57,6 @@ public abstract class Token {
 			
 			return (anoOk && car1Ok && car2Ok && car3Ok && car4Ok && minutoOk && rand2Ok && rand3Ok);
 			
-		} catch (StringIndexOutOfBoundsException ex) {return false;}
+		} catch (StringIndexOutOfBoundsException | NumberFormatException ex) {return false;}
 	}
 }

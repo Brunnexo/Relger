@@ -211,6 +211,10 @@ public class Identificacao extends JFrame
 					LocalDate data = null;
 
 					int escolha = 0;
+
+					if (dataEntrada == null)
+						escolha = 1;
+
 					while (escolha == 0)
 					{
 						try {
@@ -239,8 +243,6 @@ public class Identificacao extends JFrame
 					}
 				}
 			}
-			else
-				JOptionPane.showMessageDialog(null, "TOKEN inválido!", "Erro", JOptionPane.ERROR_MESSAGE, null);
 		}
 
 		this.override = false;
@@ -313,9 +315,13 @@ public class Identificacao extends JFrame
 			else if (Token.checaToken(inToken))
 				tokenConfere = true;
 			else if (!Token.checaToken(inToken))
+			{
 				tokenConfere = false;
+				JOptionPane.showMessageDialog(null, "TOKEN inválido!", "Erro", JOptionPane.ERROR_MESSAGE, null);
+				break;
+			}
 		}
-
+		
 		return tokenConfere;
 	}
 

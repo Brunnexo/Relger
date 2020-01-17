@@ -76,7 +76,7 @@ public class Consulta extends JFrame {
 		modeloTabela = new DefaultTableModel(new Object[] {"DATA", "FUNÇÃO", "WO", "DESCRIÇÃO", "TEMPO", "HE"}, 0);
 		tabela = new JTable(modeloTabela);
 		rolagem.setViewportView(tabela);
-		JLabel instruTempoExtra = new JLabel("TEMPO EXTRA");
+		JLabel instruTempoExtra = new JLabel("TEMPO EXTRA (MINUTOS)");
 		txtExtra = new JTextField();
 		JLabel advertencia = new JLabel("A QUANTIDADE DE DIAS TRABALHADOS PODE N\u00C3O REPRESENTAR A REALIDADE");
 
@@ -98,14 +98,14 @@ public class Consulta extends JFrame {
 		//Instrucional Tempo Total
 		instruDiasTrabalhados.setForeground(Color.DARK_GRAY);
 		instruDiasTrabalhados.setFont(new Font("Tahoma", Font.BOLD, 12));
-		instruDiasTrabalhados.setBounds(72, 55, 180, 15);
+		instruDiasTrabalhados.setBounds(56, 55, 220, 15);
 
 		//Campo de Texto Tempo Total
 		txtTempo.setHorizontalAlignment(SwingConstants.CENTER);
 		txtTempo.setText("0");
 		txtTempo.setEditable(false);
 		txtTempo.setColumns(10);
-		txtTempo.setBounds(324, 50, 65, 25);
+		txtTempo.setBounds(332, 50, 65, 25);
 
 		//Tabela
 		try
@@ -153,12 +153,12 @@ public class Consulta extends JFrame {
 		instruTempoExtra.setHorizontalAlignment(SwingConstants.CENTER);
 		instruTempoExtra.setForeground(Color.DARK_GRAY);
 		instruTempoExtra.setFont(new Font("Tahoma", Font.BOLD, 12));
-		instruTempoExtra.setBounds(461, 55, 180, 15);
+		instruTempoExtra.setBounds(453, 55, 220, 15);
 
 		txtExtra.setHorizontalAlignment(SwingConstants.CENTER);
 		txtExtra.setEditable(false);
 		txtExtra.setColumns(10);
-		txtExtra.setBounds(713, 50, 65, 25);
+		txtExtra.setBounds(729, 50, 65, 25);
 		
 		advertencia.setHorizontalAlignment(SwingConstants.CENTER);
 		advertencia.setForeground(Color.RED);

@@ -291,7 +291,7 @@ public class Atributos
 		else if (this.tProj)
 			return "Projetista";
 		else
-			return "N/A";
+			return "S.R.";
 	}
 
 
@@ -362,6 +362,9 @@ public class Atributos
 				this.getDescTrabalho().contains("GESTÃO DE") ||
 				this.getDescTrabalho().contains("ACOMPANHAMENTO") ||
 				this.getDescTrabalho().contains("FOLLOW UP") ||
+				this.getDescTrabalho().contains("CONTROLE DE COMPRAS") ||
+				this.getDescTrabalho().contains("CONTROLE DE DEMANDA") ||
+				this.getDescTrabalho().contains("CONTROLE DE HORAS") ||
 				this.getDescTrabalho().contains("CONTROLE"))
 			return true;
 		else
@@ -446,7 +449,10 @@ public class Atributos
 		}
 
 		if (this.dataOverride)
+		{
+			ldCondicional = LocalDate.parse(dataOvr);
 			return this.dataOvr;
+		}
 		else
 		{
 			if (this.hExtraProgramada && this.hExtraRegistro && (this.ld.compareTo(dataHExtra) > 0))
@@ -464,6 +470,8 @@ public class Atributos
 					return this.ld.toString();
 			}
 		}
+		
+		
 	}
 
 	public static String ultimoDiaUtil()
@@ -510,7 +518,7 @@ public class Atributos
 
 		return this.hExtra;
 	}
-
+	
 	public boolean fimDeSemana()
 	{
 		return (ld.getDayOfWeek() == DayOfWeek.SATURDAY || ld.getDayOfWeek() == DayOfWeek.SUNDAY);
@@ -524,10 +532,22 @@ public class Atributos
 
 	public boolean checaEntrada(int tempo)
 	{
-		if (tempo <=  this.tempoRestante())
-			return true;
+		if (this.isMensalista())
+		{
+			if (tempo <= this.tempoRestante())
+				return true;
+			else if ((tempo > this.tempoRestante()) && !this.bancoHoras() && (tempo - this.tempoRestante()) <= TEMPO_BANCO_HORAS)
+				return true;
+			else
+				return false;
+		}
 		else
-			return false;
+		{
+			if (tempo <=  this.tempoRestante())
+				return true;
+			else
+				return false;
+		}
 	}
 
 	public int tempoRestante()
@@ -539,28 +559,20 @@ public class Atributos
 
 		if (this.override)
 			tempoRestante = 999;
-
 		else if (fimDeSemana)
 			tempoRestante = (this.tempo() - this.tempoExtraTrabalhado);
-
 		else if (!(this.hExtraProgramada && this.hExtraRegistro) && this.horaExtra())
 			tempoRestante = (TEMPO_HORA_EXTRA_DIARIA - this.tempoExtraTrabalhado);
-
 		else if (this.hExtraProgramada && this.hExtraRegistro)
 			tempoRestante = (tempo() - this.tempoExtraTrabalhado);
-
 		else if (sextaFeira && this.isMensalista() && (this.tempoTrabalhado >= this.tempo()) && (this.tempoTrabalhado <= (this.tempo() + TEMPO_BANCO_HORAS + 60)))
 			tempoRestante = ((this.tempo() + TEMPO_BANCO_HORAS + 60) - this.tempoTrabalhado);
-
 		else if (!sextaFeira && this.isMensalista() && (this.tempoTrabalhado >= (this.tempo() + TEMPO_BANCO_HORAS)))
 			tempoRestante = (TEMPO_HORA_EXTRA_DIARIA - this.tempoExtraTrabalhado);
-
 		else if (!sextaFeira && this.isMensalista() && (this.tempoTrabalhado >= this.tempo()) && (this.tempoTrabalhado <= (this.tempo() + TEMPO_BANCO_HORAS)))
 			tempoRestante = ((this.tempo() + TEMPO_BANCO_HORAS) - this.tempoTrabalhado);
-
 		else if (this.isHorista() && (this.tempoTrabalhado >= this.tempo()))
 			tempoRestante = (TEMPO_HORA_EXTRA_DIARIA - this.tempoExtraTrabalhado);
-
 		else if (this.tempoTrabalhado <= this.tempo())
 			tempoRestante = (this.tempo() - this.tempoTrabalhado);
 

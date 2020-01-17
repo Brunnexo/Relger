@@ -26,7 +26,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import backend.Atributos;
-
+import janelas.Arrastar;
 import janelas.selecao.SR;
 import mssql.SRs;
 
@@ -202,9 +202,6 @@ public class PesquisaSR extends JFrame {
 				inBusca.requestFocus();
 			}
 		});
-
-		
-		
 		
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -213,6 +210,10 @@ public class PesquisaSR extends JFrame {
 				inBusca.requestFocus();
 			}
 		});
+		
+		Arrastar drag = new Arrastar();
+		this.addMouseListener(drag);
+		this.addMouseMotionListener(drag);
 	}
 
 	public void avancar(SR pai)

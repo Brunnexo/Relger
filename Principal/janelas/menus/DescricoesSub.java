@@ -318,7 +318,7 @@ public class DescricoesSub extends JFrame
 
 	public void trabComentado()
 	{
-		switch (JOptionPane.showOptionDialog(this.painel,
+		switch (JOptionPane.showOptionDialog(null,
 				"Deseja adicionar uma observação?",
 				"Adicionar comentário",
 				JOptionPane.YES_NO_OPTION,
@@ -331,7 +331,7 @@ public class DescricoesSub extends JFrame
 			try
 			{
 				String coment = JOptionPane.showInputDialog(
-						this.painel,
+						null,
 						"Observação a respeito do serviço",
 						"Observação", JOptionPane.INFORMATION_MESSAGE).toUpperCase();
 				if (!coment.isEmpty())
@@ -367,6 +367,11 @@ public class DescricoesSub extends JFrame
 			att.setDescTrabalho(bot);
 		}
 		else if (bot.contains("FOLLOW UP"))
+		{
+			retorno = "GESTÃO DE PROJETO";
+			att.setDescTrabalho(bot);
+		}
+		else if (bot.contains("CONTROLE DE PROJETO"))
 		{
 			retorno = "GESTÃO DE PROJETO";
 			att.setDescTrabalho(bot);

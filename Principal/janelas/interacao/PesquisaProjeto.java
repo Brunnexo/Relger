@@ -26,7 +26,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import backend.Atributos;
-
+import janelas.Arrastar;
 import janelas.selecao.Montadora;
 import janelas.selecao.Projeto;
 import mssql.Projetos;
@@ -222,9 +222,6 @@ public class PesquisaProjeto extends JFrame {
 			}
 		});
 		
-		
-		
-		
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -232,6 +229,10 @@ public class PesquisaProjeto extends JFrame {
 				inBusca.requestFocus();
 			}
 		});
+		
+		Arrastar drag = new Arrastar();
+		this.addMouseListener(drag);
+		this.addMouseMotionListener(drag);
 	}
 
 	public void avancar(Montadora pai)

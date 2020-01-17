@@ -25,7 +25,7 @@ import threads.PendenciasCheck;
 
 public class Executar {
 
-	public final static String VERSAO = "1.2.3";
+	public final static String VERSAO = "1.2.6";
 	
 	static boolean terminal;
 	static boolean adm;
@@ -45,9 +45,8 @@ public class Executar {
 		SQLConectado = Conn.getConnection();
 
 		mov.fechar();
-
+		
 		config();
-
 
 		boolean conectado = (JCIFSConectado && SQLConectado);
 
@@ -78,7 +77,7 @@ public class Executar {
 					}
 				};
 				Timer temporizador = new Timer();
-				temporizador.schedule(checar, new Date(), 5000);
+				temporizador.schedule(checar, new Date(), 1000);
 			};
 		};
 

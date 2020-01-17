@@ -8,6 +8,8 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -65,6 +67,8 @@ public class Resumo extends JFrame {
 
 	private JButton apagar;
 
+	boolean terminal;
+
 	private JToggleButton editar;
 	private JToggleButton consultar;
 	private JToggleButton hExtraMensalista;
@@ -73,6 +77,7 @@ public class Resumo extends JFrame {
 	private JButton minimizar;
 
 	public Resumo(int cracha, Atributos att) {
+		config();
 		cons = new Consulta(cracha, att);
 
 		this.cracha = att.getCrachaFunc();
@@ -226,17 +231,17 @@ public class Resumo extends JFrame {
 						switch(Relatorios.deletar(relatorio.getInt("ID"), att.getCrachaFunc(), relatorio.getString("WO")))
 						{
 						case 1:
-							JOptionPane.showMessageDialog(painel, "Apagado com sucesso!", "Operação concluída", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Apagado com sucesso!", "Operação concluída", JOptionPane.INFORMATION_MESSAGE);
 							atualizar();
 							break;
 						case 2:
-							JOptionPane.showMessageDialog(painel, "Erro no SQLite!", "Erro", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Erro no SQLite!", "Erro", JOptionPane.ERROR_MESSAGE);
 							break;
 						}
 					}catch (SQLException ex) {ex.printStackTrace();}
 					break;
 				case 1:
-					JOptionPane.showMessageDialog(painel, "Operação cancelada", "Abortado", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Operação cancelada", "Abortado", JOptionPane.INFORMATION_MESSAGE);
 					break;
 				}
 			}
@@ -400,7 +405,8 @@ public class Resumo extends JFrame {
 		consultar.setBackground(Color.DARK_GRAY);
 		consultar.setBounds(760, -5, 50, 50);
 		consultar.setFocusPainted(false);
-		
+
+		minimizar.setVisible(!this.terminal);
 		minimizar.setToolTipText("Minimizar");
 		minimizar.setForeground(Color.DARK_GRAY);
 		minimizar.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -413,7 +419,7 @@ public class Resumo extends JFrame {
 				setState(ICONIFIED);
 			}
 		});
-		
+
 		consultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cons.setVisible(consultar.isSelected());
@@ -425,9 +431,9 @@ public class Resumo extends JFrame {
 			}
 		});
 
-		
-		
-		
+
+
+
 		Arrastar drag = new Arrastar();
 		this.addMouseListener(drag);
 		this.addMouseMotionListener(drag);
@@ -479,6 +485,16 @@ public class Resumo extends JFrame {
 
 		this.setVisible(true);
 	}
+
+	void config()
+	{
+		try {
+			this.terminal = InetAddress.getLocalHost().getHostName().contains("RELGER");
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static String boolString(String bool)
 	{
 		if (bool.equals("1"))

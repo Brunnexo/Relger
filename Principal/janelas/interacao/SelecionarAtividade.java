@@ -14,7 +14,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import backend.Atributos;
-
+import janelas.Arrastar;
 import janelas.menus.Identificacao;
 import janelas.menus.Inicio;
 import janelas.selecao.Funcao;
@@ -102,9 +102,11 @@ public class SelecionarAtividade extends JFrame {
 		voltar.setBackground(Color.LIGHT_GRAY);
 		voltar.setBounds(-5, -5, 35, 35);
 		painel.add(voltar);
-		
-		
-		
+
+
+		Arrastar drag = new Arrastar();
+		this.addMouseListener(drag);
+		this.addMouseMotionListener(drag);
 	}
 
 	public SelecionarAtividade(Atributos att, Resumo res) {
@@ -174,9 +176,11 @@ public class SelecionarAtividade extends JFrame {
 		voltar.setBackground(Color.LIGHT_GRAY);
 		voltar.setBounds(-5, -5, 35, 35);
 		painel.add(voltar);
-		
-		
-		
+
+
+		Arrastar drag = new Arrastar();
+		this.addMouseListener(drag);
+		this.addMouseMotionListener(drag);
 	}
 
 }

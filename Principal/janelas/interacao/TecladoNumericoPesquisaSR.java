@@ -227,9 +227,6 @@ public class TecladoNumericoPesquisaSR extends JFrame {
 		instru.setForeground(Color.DARK_GRAY);
 		instru.setBounds(91, 5, 127, 15);
 		
-		
-		
-		
 		Arrastar drag = new Arrastar();
 		this.addMouseListener(drag);
 		this.addMouseMotionListener(drag);

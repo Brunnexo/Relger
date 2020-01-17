@@ -16,7 +16,7 @@ public class WebAPI {
 	public static LocalDate dataAtual() {
 		String data = new String();
 		LocalDate ld = LocalDate.now();
-		try {
+		/*try {
 			URL link = new URL("http://worldtimeapi.org/api/timezone/" + CONTINENTE + "/" + REGIAO + ".txt");
 
 
@@ -38,15 +38,15 @@ public class WebAPI {
 			System.out.println("Data WEB: " + data.toString());
 			return ld;
 		} catch (IOException e ) {}
-		return ld;
+		return ld;*/
+		return LocalDate.now();
 	}
-	//2020-01-14T07:53:48.501481-03:00
-	
+
 	public static LocalDateTime horaAtual() {
 		String hora = new String();
 		LocalDateTime ldt = LocalDateTime.now();
 		
-		try {
+		/*try {
 			URL link = new URL("http://worldtimeapi.org/api/timezone/" + CONTINENTE + "/" + REGIAO + ".txt");
 			
 			BufferedReader entrada = new BufferedReader (new InputStreamReader(link.openStream()));
@@ -61,10 +61,12 @@ public class WebAPI {
 			entrada.close();
 			hora = linhaEntrada.substring((linhaEntrada.indexOf(": ") + 2)).substring(0, 19);
 			ldt = LocalDateTime.parse(hora);
-			System.out.println("Hora WEB: " + ldt.toString());
+			System.out.println("Hora WEB: " + hora);
 			return ldt;
 			
 		} catch (IOException e) {}
-		return ldt;
+		return ldt;*/
+		
+		return LocalDateTime.now();
 	}
 }

@@ -1,5 +1,6 @@
 package backend;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public abstract class Token {
@@ -7,45 +8,55 @@ public abstract class Token {
 	public static boolean checaToken(String entrada)
 	{
 		try {
-			boolean car1, car2;
-			boolean split1, split2;
-
-			String[] tok = LocalDateTime.now().toString().split("-");
-
-			String caractere1;
-
-			if (LocalDateTime.now().getHour() % 3 == 0)
-				caractere1 = "A";
-			else if (LocalDateTime.now().getHour() % 2 == 0)
-				caractere1 = "B";
+			String[] comp = entrada.split(":");
+			
+			boolean anoOk, car1Ok, car2Ok, car3Ok, car4Ok, minutoOk, rand2Ok, rand3Ok;
+			
+			anoOk = ((LocalDate.now().getYear() / 11) == Integer.parseInt(comp[0]));
+			
+			int rand1 = Integer.parseInt(comp[2]);
+			
+			if (rand1 % 3 == 0)
+				car1Ok = (comp[1].equals("A"));
+			else if (rand1 % 2 == 0)
+				car1Ok = (comp[1].equals("B"));
 			else
-				caractere1 = "C";
+				car1Ok = (comp[1].equals("C"));
 
-			car1 = (caractere1.equals(String.valueOf(entrada.charAt(0))));
-
-			String caractere2 = String.valueOf(entrada.substring((caractere1 + tok[0] + tok[1]).length()).charAt(0));
-			int rand = Integer.parseInt(entrada.substring((caractere1 + tok[0] + tok[1] + " " + (LocalDateTime.now().getHour() - 1) + (Integer.parseInt(tok[0]) / LocalDateTime.now().getHour())).length()));
-
-			if (rand % 6 == 0)
-				car2 = caractere2.contains("U");
-			else if (rand % 5 == 0)
-				car2 = caractere2.contains("V");
-			else if (rand % 4 == 0)
-				car2 = caractere2.contains("W");
-			else if (rand % 3 == 0)
-				car2 = caractere2.contains("X");
-			else if (rand % 2 == 0)
-				car2 = caractere2.contains("Y");
+			int rand2 = Integer.parseInt(comp[4]);
+			rand2Ok = (((rand1 - 1) * 3) == rand2);
+			
+			if (rand2 <= 10)
+				car2Ok = (comp[3].equals("D"));
+			else if (rand2 <= 20)
+				car2Ok = (comp[3].equals("E"));
 			else
-				car2 = caractere2.contains("Z");
+				car2Ok = (comp[3].equals("F"));
+			
+			int rand3 = Integer.parseInt(comp[6]);
+			rand3Ok = ((rand1 / 2) == rand3);
+			
+			if (rand3 <= 30)
+				car3Ok = comp[5].equals("G");
+			else if (rand3 <= 40)
+				car3Ok = comp[5].equals("H");
+			else
+				car3Ok = comp[5].equals("I");
 
-			String comparativo = Integer.toString(LocalDateTime.now().getHour() - 1) + Integer.toString(Integer.parseInt(tok[0]) / LocalDateTime.now().getHour()) + rand;
-
-			split1 = entrada.substring(1, entrada.indexOf(caractere2)).equals(tok[0] + tok[1]);
-			split2 = entrada.substring(entrada.indexOf(caractere2) + 1).equals(comparativo);
-
-			return ((car1 && car2) && (split1 && split2));
+			int minuto = (LocalDateTime.now().getMinute() * 11);
+			
+			minutoOk = (minuto == Integer.parseInt(comp[8]));
+			
+			if (minuto % 3 == 0)
+				car4Ok = (comp[7].equals("J"));
+			else if (minuto % 2 == 0)
+				car4Ok = (comp[7].equals("K"));
+			else
+				car4Ok = (comp[7].equals("L"));
+			
+			
+			return (anoOk && car1Ok && car2Ok && car3Ok && car4Ok && minutoOk && rand2Ok && rand3Ok);
+			
 		} catch (StringIndexOutOfBoundsException ex) {return false;}
-
 	}
 }

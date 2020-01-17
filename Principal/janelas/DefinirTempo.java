@@ -58,7 +58,7 @@ public class DefinirTempo extends JFrame {
 		setContentPane(painel);
 		setLocationRelativeTo(null);
 		setUndecorated(true);
-		
+
 		setShape(new RoundRectangle2D.Double(0,0,PW,PH,5,5));
 
 		//Componentes
@@ -121,7 +121,7 @@ public class DefinirTempo extends JFrame {
 						valorNum = Integer.parseInt(campoNum.getText());
 					} catch (StringIndexOutOfBoundsException ex) {}
 				}
-				
+
 				if (e.getKeyCode() == KeyEvent.VK_ENTER)
 				{
 					valorNum = Integer.parseInt(campoNum.getText());
@@ -302,10 +302,10 @@ public class DefinirTempo extends JFrame {
 		voltar.setBackground(Color.LIGHT_GRAY);
 		voltar.setBounds(-5, -5, 35, 35);
 		painel.add(voltar);
-		
-		
-		
-		
+
+
+
+
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -394,7 +394,7 @@ public class DefinirTempo extends JFrame {
 						valorNum = Integer.parseInt(campoNum.getText());
 					} catch (StringIndexOutOfBoundsException ex) {}
 				}
-				
+
 				if (e.getKeyCode() == KeyEvent.VK_ENTER)
 				{
 					valorNum = Integer.parseInt(campoNum.getText());
@@ -575,10 +575,7 @@ public class DefinirTempo extends JFrame {
 		voltar.setBackground(Color.LIGHT_GRAY);
 		voltar.setBounds(-5, -5, 35, 35);
 		painel.add(voltar);
-		
-		
-		
-		
+
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -667,7 +664,7 @@ public class DefinirTempo extends JFrame {
 						valorNum = Integer.parseInt(campoNum.getText());
 					} catch (StringIndexOutOfBoundsException ex) {}
 				}
-				
+
 				if (e.getKeyCode() == KeyEvent.VK_ENTER)
 				{
 					valorNum = Integer.parseInt(campoNum.getText());
@@ -848,7 +845,7 @@ public class DefinirTempo extends JFrame {
 		voltar.setBackground(Color.LIGHT_GRAY);
 		voltar.setBounds(-5, -5, 35, 35);
 		painel.add(voltar);
-		
+
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -856,9 +853,9 @@ public class DefinirTempo extends JFrame {
 				campoNum.requestFocus();
 			}
 		});
-		
-		
-		
+
+
+
 	}
 
 	public void registrar()
@@ -871,7 +868,7 @@ public class DefinirTempo extends JFrame {
 			{
 				if (att.horaExtra())
 				{
-					switch (JOptionPane.showOptionDialog(this.painel, "Deseja registrar " + this.valorNum + " " + plural(this.valorNum) + " de tempo extra?", "Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]))
+					switch (JOptionPane.showOptionDialog(null, "Deseja registrar " + this.valorNum + " " + plural(this.valorNum) + " de tempo extra?", "Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]))
 					{
 					case 0:
 						switch (Relatorios.registrar(att, valorNum))
@@ -906,7 +903,7 @@ public class DefinirTempo extends JFrame {
 				}
 				else
 				{
-					switch (JOptionPane.showOptionDialog(this.painel, "Deseja registrar " + this.valorNum + " " + plural(this.valorNum) + "?", "Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]))
+					switch (JOptionPane.showOptionDialog(null, "Deseja registrar " + this.valorNum + " " + plural(this.valorNum) + "?", "Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]))
 					{
 					case 0:
 						switch (Relatorios.registrar(att, valorNum))
@@ -950,12 +947,12 @@ public class DefinirTempo extends JFrame {
 	{
 		if (att.ishExtraProgramada() && att.ishExtraRegistro())
 		{
-			switch (JOptionPane.showOptionDialog(this.painel, "Deseja continuar?", "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]))
+			switch (JOptionPane.showOptionDialog(null, "Deseja continuar?", "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]))
 			{
 			case 0:
 				return true;
 			default:
-				switch (JOptionPane.showOptionDialog(this.painel, "Finalizar hora-extra?", "Finalizar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]))
+				switch (JOptionPane.showOptionDialog(null, "Finalizar hora-extra?", "Finalizar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]))
 				{
 				case 0:
 					Extra.atualizar(att.getCrachaFunc(), true, att.dataCondicionalFormatada());
@@ -967,7 +964,7 @@ public class DefinirTempo extends JFrame {
 		}
 		else
 		{
-			switch (JOptionPane.showOptionDialog(this.painel, "Deseja continuar?", "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]))
+			switch (JOptionPane.showOptionDialog(null, "Deseja continuar?", "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[0]))
 			{
 			case 0:
 				return true;

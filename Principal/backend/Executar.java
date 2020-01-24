@@ -25,7 +25,7 @@ import threads.PendenciasCheck;
 
 public class Executar {
 
-	public final static String VERSAO = "1.2.6";
+	public final static String VERSAO = "1.2.7";
 	
 	static boolean terminal;
 	static boolean adm;
@@ -36,6 +36,7 @@ public class Executar {
 
 	public static void main(String[] e) throws IOException, InterruptedException, ExecutionException, SQLException
 	{
+		System.out.println(Atividade.teste);
 		LookAndFeel.alterar("Nimbus");
 		
 		Movimentos mov = new Movimentos();
@@ -62,6 +63,7 @@ public class Executar {
 
 		if (terminal)
 			Runtime.getRuntime().exec("cmd.exe /C taskkill /F /IM explorer.exe");
+		
 
 		Inicio inicio = new Inicio();
 		Identificacao id = new Identificacao(new Inicio());
@@ -86,14 +88,6 @@ public class Executar {
 			public void run()
 			{
 				ModCheck.checarPlanilha(JCIFS.configurarEndereco(false));
-			}
-		};
-
-		Thread checarProgramaNovo = new Thread()
-		{
-			public void run()
-			{
-				ModCheck.checarPrograma(JCIFS.configurarEndereco("ju-file01", "/manutencao/ENGENHARIA DE AUTOMAÇÃO/Administração/Softwares/Relger/", "Relger.jar"));
 			}
 		};
 
@@ -136,7 +130,6 @@ public class Executar {
 		//Iniciar Threads
 
 		iniciar.start();
-		checarProgramaNovo.start();
 
 		if (adm)
 			checarPendencias.start();

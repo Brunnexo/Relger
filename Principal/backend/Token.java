@@ -9,7 +9,7 @@ public abstract class Token {
 	{
 		try {
 			String[] comp = entrada.split(":");
-			
+			//183:A:30:F:87:K:46
 			boolean anoOk, car1Ok, car2Ok, car3Ok, car4Ok, minutoOk, rand2Ok, rand3Ok;
 			
 			anoOk = ((LocalDate.now().getYear() / 11) == Integer.parseInt(comp[0]));
@@ -56,7 +56,6 @@ public abstract class Token {
 			
 			
 			return (anoOk && car1Ok && car2Ok && car3Ok && car4Ok && minutoOk && rand2Ok && rand3Ok);
-			
 		} catch (StringIndexOutOfBoundsException | NumberFormatException ex) {return false;}
 	}
 }

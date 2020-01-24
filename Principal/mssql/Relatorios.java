@@ -23,7 +23,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.microsoft.sqlserver.jdbc.SQLServerResultSet;
 
-import backend.Atributos;
+import backend.Colaborador;
+import backend.Tempo;
 import janelas.Movimentos;
 import janelas.Notificacao;
 import janelas.PendenciasNotificacao;
@@ -31,15 +32,16 @@ import rede.Conn;
 
 public class Relatorios {
 
-	public static int registrar(Atributos att, int tempo)
+	public static int registrar(Colaborador col, int tempo)
 	{
+		Tempo tempo = new Tempo();
 		try
 		{
 			String sql = "INSERT INTO [dbo].[RELATORIOS] ([DATA],[CRACHA],[FUNCAO],[WO],[DESCRICAO],[TEMPO],[HE]) VALUES(?,?,?,?,?,?,?)";
 			PreparedStatement pRel = Conn.connection.prepareStatement(sql);
 
-			pRel.setString(1, att.dataCondicionalFormatada());
-			pRel.setInt(2, att.getCrachaFunc());
+			pRel.setString(1, tempo.tempoAtual().toString());
+			pRel.setInt(2, col.getCracha());
 			pRel.setString(3, att.getNomeFuncao());
 
 			if (att.getWo().equals(""))
@@ -124,7 +126,7 @@ public class Relatorios {
 		try {
 			String sql = "SELECT [F].[NOME],[R].[CRACHA],MAX([R].[DATA]) AS 'ÚTLIMO REGISTRO', (SELECT CASE WHEN MAX([R].[DATA]) < ? THEN 'SIM' ELSE 'NÃO' END AS 'ATRASADO') AS 'ATRASADO' FROM [dbo].[RELATORIOS] AS [R] INNER JOIN [dbo].[FUNCIONARIOS] AS [F] ON [F].[CRACHA] = [R].[CRACHA] GROUP BY [F].[NOME], [R].[CRACHA] ORDER BY [F].[NOME] ASC";
 			PreparedStatement st = Conn.connection.prepareStatement(sql, SQLServerResultSet.TYPE_SCROLL_INSENSITIVE, SQLServerResultSet.CONCUR_READ_ONLY);
-			st.setString(1, Atributos.ultimoDiaUtil());
+			st.setString(1, Tempo.ultimoDiaUtil());
 
 			return st.executeQuery();
 		} catch (SQLException e) {

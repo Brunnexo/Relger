@@ -15,8 +15,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import backend.Atributos;
-
+import backend.Colaborador;
 import mssql.Relatorios;
 
 public class Consulta extends JFrame {
@@ -42,11 +41,9 @@ public class Consulta extends JFrame {
 	private JTextField txtExtra;
 	
 	String dataCondicional;
-	Atributos att;
 	
-	public Consulta(int cracha, Atributos att) {
+	public Consulta(int cracha, Colaborador col) {
 		this.cracha = cracha;
-		this.att = att;
 
 		relatorio = Relatorios.retornar(cracha);
 

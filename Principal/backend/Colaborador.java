@@ -9,10 +9,15 @@ public class Colaborador {
 
 	public Atividade atividade;
 	
-	private int cracha;
+	private int cracha = 0;
 	private String nome;
 	private char tipo;
 	private boolean[] funcoes;
+	
+	private int tempoTrabalhado;
+	private int tempoExtraTrabalhado;
+	
+	private int tempoMaximoPermitido;
 
 	public Colaborador() {
 	}
@@ -47,40 +52,8 @@ public class Colaborador {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		this.atividade = new Atividade();
 	}
-
-	/**
-	 * @param Nome do colaborador</br>
-	 * Define as características básicas do colaborador</br>
-	 * a partir da pesquisa pelo nome, como <b>crachá</b>,</br>
-	 * função e tipo de serviço
-	 */
-	public Colaborador(String nome) {
-		ResultSet resultado = Funcionarios.pesquisarNome(nome);
-		try {
-			while (resultado.next()) {
-				this.cracha = resultado.getInt("CRACHA");
-				this.nome = resultado.getString("NOME");
-				this.funcoes = new boolean[] {
-						resultado.getBoolean("ELE"),
-						resultado.getBoolean("MEC"),
-						resultado.getBoolean("PROJ"),
-						resultado.getBoolean("PROG"),
-						resultado.getBoolean("ENG"),
-						resultado.getBoolean("ADM")
-				};
-
-				if (resultado.getBoolean("HORISTA"))
-					this.tipo = 'H';
-				else if (resultado.getBoolean("MENSALISTA"))
-					this.tipo = 'M';
-
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	// CRACHA
 	/**
 	 * @param Crachá do colaborador

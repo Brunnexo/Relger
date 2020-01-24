@@ -70,6 +70,17 @@ public class Funcionarios {
 		}
 	}
 
+	public static ResultSet retornar(String sql) {
+		try {
+			PreparedStatement st = Conn.connection.prepareStatement(sql, SQLServerResultSet.TYPE_SCROLL_INSENSITIVE, SQLServerResultSet.CONCUR_READ_ONLY);
+
+			return st.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public static ResultSet retornar() {
 		try {
 			String sql = "SELECT [ID], [NOME], [CRACHA], [CC], [ELE], [MEC], [PROJ], [PROG], [ENG], [ADM], [HORISTA], [MENSALISTA] FROM [dbo].[FUNCIONARIOS]";
@@ -114,17 +125,6 @@ public class Funcionarios {
 			PreparedStatement st = Conn.connection.prepareStatement(sql, SQLServerResultSet.TYPE_SCROLL_INSENSITIVE, SQLServerResultSet.CONCUR_READ_ONLY);
 			st.setInt(1, pesquisa);
 
-			return st.executeQuery();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public static ResultSet listarCcs() {
-		try {
-			String sql = "SELECT DISTINCT [F].[CC] FROM [dbo].[FUNCIONARIOS] AS [F]";
-			PreparedStatement st = Conn.connection.prepareStatement(sql, SQLServerResultSet.TYPE_SCROLL_INSENSITIVE, SQLServerResultSet.CONCUR_READ_ONLY);
 			return st.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();

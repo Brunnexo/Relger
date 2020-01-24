@@ -36,7 +36,6 @@ public class Executar {
 
 	public static void main(String[] e) throws IOException, InterruptedException, ExecutionException, SQLException
 	{
-		System.out.println(Atividade.teste);
 		LookAndFeel.alterar("Nimbus");
 		
 		Movimentos mov = new Movimentos();

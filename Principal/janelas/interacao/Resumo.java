@@ -27,7 +27,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import backend.Atributos;
+import backend.Colaborador;
+import backend.Tempo;
 import janelas.Arrastar;
 import mssql.Relatorios;
 
@@ -47,7 +48,6 @@ public class Resumo extends JFrame {
 
 	String[] botoes = {"Sim", "Não"};
 	Resumo res = this;
-	Atributos att;
 	ResultSet relatorio;
 
 	String dataCondicional;
@@ -76,13 +76,14 @@ public class Resumo extends JFrame {
 	Consulta cons;
 	private JButton minimizar;
 
-	public Resumo(int cracha, Atributos att) {
+	public Resumo(int cracha, Colaborador col) {
 		config();
-		cons = new Consulta(cracha, att);
+		Tempo tempo = new Tempo();
+		cons = new Consulta(cracha, col);
 
-		this.cracha = att.getCrachaFunc();
-		this.dataCondicional = att.dataCondicionalFormatada();
-		this.att = att;
+		this.cracha = col.getCracha();
+		this.dataCondicional = tempo.
+		this.att = col;
 
 		relatorio = Relatorios.retornar(this.cracha, this.dataCondicional);
 
@@ -108,7 +109,7 @@ public class Resumo extends JFrame {
 		setUndecorated(true);
 		setShape(new RoundRectangle2D.Double(0,0,PW,PH,5,5));
 		setAlwaysOnTop(true);
-		JLabel instru = new JLabel("RESUMO DO FUNCION\u00C1RIO - " + att.dataCondicional());
+		JLabel instru = new JLabel("RESUMO DO FUNCION\u00C1RIO - " + col.dataCondicional());
 		JButton fechar = new JButton("X");
 		fechar.setToolTipText("Fechar");
 		fechar.setFocusPainted(false);
@@ -228,7 +229,7 @@ public class Resumo extends JFrame {
 				{
 				case 0:
 					try {
-						switch(Relatorios.deletar(relatorio.getInt("ID"), att.getCrachaFunc(), relatorio.getString("WO")))
+						switch(Relatorios.deletar(relatorio.getInt("ID"), col.getCrachaFunc(), relatorio.getString("WO")))
 						{
 						case 1:
 							JOptionPane.showMessageDialog(null, "Apagado com sucesso!", "Operação concluída", JOptionPane.INFORMATION_MESSAGE);
@@ -265,13 +266,13 @@ public class Resumo extends JFrame {
 		//Campo de Texto Nome
 		txtNome.setHorizontalAlignment(SwingConstants.CENTER);
 		txtNome.setEditable(false);
-		txtNome.setText(att.getNomeFunc());
+		txtNome.setText(col.getNomeFunc());
 		txtNome.setBounds(78, 50, 136, 25);
 		txtNome.setColumns(10);
 
 		//Campo de Texto Crachá
 		txtCracha.setHorizontalAlignment(SwingConstants.CENTER);
-		txtCracha.setText(Integer.toString(att.getCrachaFunc()));
+		txtCracha.setText(Integer.toString(col.getCrachaFunc()));
 		txtCracha.setEditable(false);
 		txtCracha.setBounds(320, 50, 65, 25);
 		txtCracha.setColumns(10);
@@ -313,19 +314,19 @@ public class Resumo extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (chkHoraExtra.isSelected())
 				{
-					att.sethExtraMensalista(chkHoraExtra.isSelected());
+					col.sethExtraMensalista(chkHoraExtra.isSelected());
 					res.atualizar();
 				}
 				else
 				{
-					att.sethExtraMensalista(chkHoraExtra.isSelected());
+					col.sethExtraMensalista(chkHoraExtra.isSelected());
 					res.atualizar();
 				}
 			}
 		});
 
 		hExtraMensalista.setFocusPainted(false);
-		hExtraMensalista.setVisible(att.isMensalista() && !att.fimDeSemana());
+		hExtraMensalista.setVisible(col.isMensalista() && !col.fimDeSemana());
 		hExtraMensalista.setForeground(Color.DARK_GRAY);
 		hExtraMensalista.setFont(new Font("Tahoma", Font.BOLD, 12));
 		hExtraMensalista.setBounds(690, -5, 75, 35);
@@ -333,12 +334,12 @@ public class Resumo extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (hExtraMensalista.isSelected())
 				{
-					att.sethExtraMensalista(true);
+					col.sethExtraMensalista(true);
 					res.atualizar();
 				}
 				else
 				{
-					att.sethExtraMensalista(false);
+					col.sethExtraMensalista(false);
 					res.atualizar();
 				}
 			}
@@ -381,23 +382,23 @@ public class Resumo extends JFrame {
 		rolagem.setBounds(20, 90, 810, 150);
 
 		//Métodos
-		att.setTempoTrabalhado(0);
-		att.setTempoExtraTrabalhado(0);
+		col.setTempoTrabalhado(0);
+		col.setTempoExtraTrabalhado(0);
 
 		for (int i = 0; i < tabela.getRowCount(); i++)
 		{
 			if (tabela.getValueAt(i, 4).toString().contentEquals("SIM"))
-				att.setTempoExtraTrabalhado(att.getTempoExtraTrabalhado() + Integer.parseInt(tabela.getValueAt(i, 3).toString()));
+				col.setTempoExtraTrabalhado(col.getTempoExtraTrabalhado() + Integer.parseInt(tabela.getValueAt(i, 3).toString()));
 			else
-				att.setTempoTrabalhado(att.getTempoTrabalhado() + Integer.parseInt(tabela.getValueAt(i, 3).toString()));
+				col.setTempoTrabalhado(col.getTempoTrabalhado() + Integer.parseInt(tabela.getValueAt(i, 3).toString()));
 		}
 
-		chkBancoDeHoras.setSelected(att.bancoHoras());
-		chkHoraExtra.setSelected(att.horaExtra());
-		chkNormal.setSelected(att.tempoNormal());
+		chkBancoDeHoras.setSelected(col.bancoHoras());
+		chkHoraExtra.setSelected(col.horaExtra());
+		chkNormal.setSelected(col.tempoNormal());
 
-		txtTempo.setText(Integer.toString(att.getTempoTrabalhado() + att.getTempoExtraTrabalhado()));
-		txtTempoRest.setText(Integer.toString(att.tempoRestante()));
+		txtTempo.setText(Integer.toString(col.getTempoTrabalhado() + col.getTempoExtraTrabalhado()));
+		txtTempoRest.setText(Integer.toString(col.tempoRestante()));
 
 		consultar.setToolTipText("Ver hist\u00F3rico de registros");
 		consultar.setForeground(Color.YELLOW);

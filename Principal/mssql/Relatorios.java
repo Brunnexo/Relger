@@ -120,7 +120,6 @@ public class Relatorios {
 			return null;
 		}
 	}
-
 	public static ResultSet pendentes()
 	{
 		try {

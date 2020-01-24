@@ -3,14 +3,14 @@ package backend;
 public class Atividade {
 
 	// CATEGORIAS
-	String[] catAdm = {
+	private String[] catAdm = {
 			"CONTROLE",
 			"DOCUMENTAÇÃO",
 			"ORÇAMENTO E GESTÃO",
 			"RETRABALHOS E MELHORIAS",
 			"GERAL"
 	};
-	String[] catProj = {
+	private String[] catProj = {
 			"DESENVOLVIMENTO",
 			"VISITA TÉCNICA",
 			"ELABORAÇÃO",
@@ -19,7 +19,7 @@ public class Atividade {
 			"RETRABALHOS E MELHORIAS",
 			"GERAL"
 	};
-	String[] catEng = {
+	private String[] catEng = {
 			"DESENVOLVIMENTO",
 			"VISITA TÉCNICA",
 			"ELABORAÇÃO",
@@ -28,7 +28,7 @@ public class Atividade {
 			"RETRABALHOS E MELHORIAS",
 			"GERAL"
 	};
-	String[] catEle = {
+	private String[] catEle = {
 			"MONTAGEM",
 			"TESTES",
 			"IDENTIFICAÇÃO",
@@ -38,7 +38,7 @@ public class Atividade {
 			"RETRABALHOS E MELHORIAS",
 			"GERAL"
 	};
-	String[] catProg = {
+	private String[] catProg = {
 			"PROGRAMAÇÃO",
 			"PROJETO ELÉTRICO",
 			"DOCUMENTAÇÃO",
@@ -47,7 +47,7 @@ public class Atividade {
 			"RETRABALHOS E MELHORIAS",
 			"GERAL"
 	};
-	String[] catMec = {
+	private String[] catMec = {
 			"MONTAGEM",
 			"USINAGEM",
 			"AJUSTES",
@@ -60,14 +60,14 @@ public class Atividade {
 	};
 
 	//SUB-CATEGORIAS
-	String[][] subCatAdm = {
+	private String[][] subCatAdm = {
 			{"CONTROLE DE COMPRAS", "CONTROLE DE DEMANDA", "CONTROLE DE HORAS"},
 			{"DOCUMENTAÇÃO DE MÁQUINA", "DOCUMENTAÇÃO", "PROJETO"},
 			{"ORÇAMENTO", "GESTÃO DE PROJETO", "FOLLOW UP E DEMANDA"},
 			{"RETRABALHO INTERNO", "RETRABALHO EXTERNO", "MELHORIAS"},
 			{"TESTES E PROTÓTIPOS", "MANUTENÇÃO", "ALMOXARIFADO", "5S", "NÃO PRODUTIVOS", "AUSÊNCIA"}
 	};
-	String[][] subCatProj = {
+	private String[][] subCatProj = {
 			{"DESENVOLVIMENTO DE PROJETO", "CONTROLE DE PROJETO", "LISTA DE PEÇAS", "DESIGN REVIEW"},
 			{"VISITA TÉCNICA"},
 			{"ELABORAÇÃO DE TERMO DE ABERTURA", "ELABORAÇÃO DE ESCOPO"},
@@ -76,7 +76,7 @@ public class Atividade {
 			{"RETRABALHO INTERNO", "RETRABALHO EXTERNO", "MELHORIAS"},
 			{"TESTES E PROTÓTIPOS", "MANUTENÇÃO", "ALMOXARIFADO", "5S", "NÃO PRODUTIVOS", "AUSÊNCIA"}
 	};
-	String[][] subCatEng = {
+	private String[][] subCatEng = {
 			{"DESENVOLVIMENTO DE PROJETO", "CONTROLE DE PROJETO", "LISTA DE PEÇAS", "DESIGN REVIEW"},
 			{"VISITA TÉCNICA"},
 			{"ELABORAÇÃO DE TERMO DE ABERTURA", "ELABORAÇÃO DE ESCOPO"},
@@ -86,7 +86,7 @@ public class Atividade {
 			{"TESTES E PROTÓTIPOS", "MANUTENÇÃO", "ALMOXARIFADO", "5S", "NÃO PRODUTIVOS", "AUSÊNCIA"}
 			//[7]
 	};
-	String[][] subCatEle = {
+	private String[][] subCatEle = {
 			{"MONTAGEM DE PAINEL ELÉTRICO", "MONTAGEM DE MÁQUINA", "MONTAGEM GERAL"},
 			{"TESTES"},
 			{"IDENTIFICAÇÃO DE MÁQUINAS", "IDENTIFICAÇÃO DE PAINEL ELÉTRICO"},
@@ -96,7 +96,7 @@ public class Atividade {
 			{"RETRABALHO INTERNO", "RETRABALHO EXTERNO", "MELHORIAS"},
 			{"TESTES E PROTÓTIPOS", "MANUTENÇÃO", "ALMOXARIFADO", "5S", "NÃO PRODUTIVOS", "AUSÊNCIA"}
 	};
-	String[][] subCatProg = {
+	private String[][] subCatProg = {
 			{"PROGRAMAÇÃO", "DESENVOLVIMENTO DE PROGRAMA", "AJUSTE DE PROGRAMA", "AUXÍLIO EM PROGRAMAÇÃO", "REALIZAÇÃO DE BACKUP"},
 			{"PROJETO ELÉTRICO", "CORREÇÃO DE PROJETO ELÉTRICO"},
 			{"DOCUMENTAÇÃO"},
@@ -105,7 +105,7 @@ public class Atividade {
 			{"RETRABALHO INTERNO", "RETRABALHO EXTERNO", "MELHORIAS"},
 			{"TESTES E PROTÓTIPOS", "MANUTENÇÃO", "ALMOXARIFADO", "5S", "NÃO PRODUTIVOS", "AUSÊNCIA"}
 	};
-	String[][] subCatMec = {
+	private String[][] subCatMec = {
 			{"MONTAGEM GERAL", "MONTAGEM DE SISTEMA PNEUMÁTICO", "MONTAGEM DE COMPONENTES"},
 			{"USINAGEM FRESADORA", "USINAGEM TORNO", "USINAGEM FURADEIRA", "USINAGEM GERAL"},
 			{"AJUSTES"},
@@ -117,25 +117,6 @@ public class Atividade {
 			{"TESTES E PROTÓTIPOS", "MANUTENÇÃO", "ALMOXARIFADO", "5S", "NÃO PRODUTIVOS", "AUSÊNCIA"}
 	};
 
-	private String[] categoria;
-	private String[][] subCategoria;
-
-	private int selecaoCat, selecaoSub;
-
-	// CATEGORIA
-	public String[] getCategoria() {
-		return categoria;
+	public Atividade() {
 	}
-	public void setCategoria(String[] categoria) {
-		this.categoria = categoria;
-	}
-
-	// SUB-CATEGORIA
-	public String[][] getSubCategoria() {
-		return subCategoria;
-	}
-	public void setSubCategoria(String[][] subCategoria) {
-		this.subCategoria = subCategoria;
-	}
-
 }

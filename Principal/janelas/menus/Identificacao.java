@@ -27,6 +27,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import backend.Atributos;
+import backend.Colaborador;
 import backend.Executar;
 import backend.Token;
 import janelas.interacao.Resumo;
@@ -35,8 +36,7 @@ import mssql.Extra;
 import mssql.Funcionarios;
 import threads.Saida;
 
-public class Identificacao extends JFrame
-{
+public class Identificacao extends JFrame {
 	final static int PW = 450, PH = 170;
 
 	static boolean terminal = false;
@@ -57,12 +57,12 @@ public class Identificacao extends JFrame
 	public Resumo res;
 
 	//Definição de Atributos
-	public Atributos att;
 	private JButton voltar;
 	private JLabel versao;
 
-	public Identificacao(Inicio pai)
-	{
+	Colaborador col;
+
+	public Identificacao(Inicio pai) {
 		config();
 		//Interação de Janela
 		pai.setVisible(false);
@@ -195,127 +195,44 @@ public class Identificacao extends JFrame
 		});
 	}
 
-	public void proximo()
-	{
-		att = new Atributos();
-
-		if (this.override | this.dataOverride)
-		{
-			if (token())
-			{
-				if (this.override)
-					att.setOverride(true);
-				if (this.dataOverride)
-				{
-					String dataEntrada = JOptionPane.showInputDialog(null, "Insira a data: ","Data",JOptionPane.QUESTION_MESSAGE);
-					LocalDate data = null;
-
-					int escolha = 0;
-
-					if (dataEntrada == null)
-						escolha = 1;
-
-					while (escolha == 0)
-					{
-						try {
-							data = LocalDate.parse(dataEntrada, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-							att.setDataOverride(true);
-							att.setDataOvr(data);
-
-							escolha = 1;
-							if (data == null)
-							{
-								switch (JOptionPane.showOptionDialog(null, "Deseja continuar?", "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"SIM", "NÃO"}, 0))
-								{
-								case 0:
-									break;
-								case 1:
-									escolha = 1;
-									break;
-								}
-							}
-						} catch (DateTimeParseException ex)
-						{
-							JOptionPane.showMessageDialog(null, "Data inválida!", "Erro", JOptionPane.ERROR_MESSAGE, null);
-							escolha = 1;
-						}
-					}
-				}
-			}
-		}
-
-		this.override = false;
-
-		if (this.cracha.getText().equals(""))
-		{
+	public void proximo() {
+		if (this.cracha.getText().equals("")) {
 			this.cracha.setText("");
 			JOptionPane.showMessageDialog(this.painel, "Insira o número do registro", "Erro", JOptionPane.ERROR_MESSAGE);
 		}
-		else
-		{
-			try
-			{
-				att.escreveValores(Funcionarios.pesquisarCracha(Integer.parseInt(this.cracha.getText())));
-
-			} catch (NumberFormatException ex)
-			{
+		else {
+			try {
+				col = new Colaborador(Integer.parseInt(this.cracha.getText()));
+			} catch (NumberFormatException ex) {
 				JOptionPane.showMessageDialog(this.painel, "Dados inválidos!", "Erro", JOptionPane.ERROR_MESSAGE);
 			}
-			if (att.getCrachaFunc() == 0)
-			{
+			if (col.getCracha() == 0) {
 				this.cracha.setText("");
 				JOptionPane.showMessageDialog(this.painel, "Registro não encontrado no banco de dados", "Erro", JOptionPane.ERROR_MESSAGE);
 			}
-			else
-			{
-				if (Extra.retornar(Integer.parseInt(this.cracha.getText()), att.dataCondicionalFormatada()))
-				{
-					switch (JOptionPane.showOptionDialog(painel, "Deseja registrar suas horas extras?", "Hora extra marcada", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[1]))
-					{
-					case 0:
-						att.sethExtraRegistro(true);
-						res = new Resumo(Integer.parseInt(this.cracha.getText()), att);
-						res.setVisible(true);
-						break;
-					case 1:
-						att.sethExtraRegistro(false);
-						res = new Resumo(Integer.parseInt(this.cracha.getText()), att);
-						res.setVisible(true);
-						break;
-					}
-					SelecionarAtividade selec = new SelecionarAtividade(identificacao);
-					selec.setVisible(true);
-				}
-				else
-				{
-					res = new Resumo(Integer.parseInt(this.cracha.getText()), att);
-					res.setVisible(true);
+			else {
+				res = new Resumo(Integer.parseInt(this.cracha.getText()), col);
+				res.setVisible(true);
 
-					SelecionarAtividade selec = new SelecionarAtividade(identificacao);
-					selec.setVisible(true);
-				}
+				SelecionarAtividade selec = new SelecionarAtividade(identificacao);
+				selec.setVisible(true);
 			}
 		}
 	}
 
-	boolean token()
-	{
+	boolean token() {
 		boolean tokenConfere = false;
 		String inToken = new String();
-		while (!tokenConfere)
-		{
+		while (!tokenConfere) {
 			inToken = JOptionPane.showInputDialog(null, "Insira o TOKEN", "Token", JOptionPane.QUESTION_MESSAGE);
 			System.out.println(inToken);
-			if (inToken == null)
-			{
+			if (inToken == null) {
 				tokenConfere = false;
 				break;
 			}
 			else if (Token.checaToken(inToken))
 				tokenConfere = true;
-			else if (!Token.checaToken(inToken))
-			{
+			else if (!Token.checaToken(inToken)) {
 				tokenConfere = false;
 				JOptionPane.showMessageDialog(null, "TOKEN inválido!", "Erro", JOptionPane.ERROR_MESSAGE, null);
 				break;
@@ -325,8 +242,7 @@ public class Identificacao extends JFrame
 		//return tokenConfere;
 	}
 
-	static void config()
-	{
+	static void config() {
 		try {
 			terminal = InetAddress.getLocalHost().getHostName().contains("RELGER");
 		} catch (UnknownHostException e) {
@@ -345,13 +261,11 @@ public class Identificacao extends JFrame
 				usuario = String.valueOf(nomeUsuario[0].charAt(0)) + nomeUsuario[1];
 
 
-			while (listaNomesAdm.next())
-			{
+			while (listaNomesAdm.next()) {
 				listaSQL.add(listaNomesAdm.getString("NOME"));
 			}
 
-			for (int i = 0; i < listaSQL.size(); i++)
-			{
+			for (int i = 0; i < listaSQL.size(); i++) {
 				String[] nomeUsuarioComp = listaSQL.get(i).split(" ");
 				String usuarioComp = String.valueOf(nomeUsuarioComp[0].charAt(0)) + nomeUsuarioComp[1];
 

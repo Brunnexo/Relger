@@ -13,14 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import backend.Atributos;
-
 import janelas.interacao.Resumo;
 import janelas.selecao.Funcao;
 
 public class DescricoesGenericas extends JFrame
 {
-	public Atributos att;
 	public Resumo res;
 
 	public int escolha = 0;
@@ -33,36 +30,11 @@ public class DescricoesGenericas extends JFrame
 
 	DescricoesGenericas descGen = this;
 	
-	public DescricoesGenericas(Funcao pai)
-	{
+	public DescricoesGenericas(Funcao pai) {
 		//Janela
 		pai.setVisible(false);
-		att = pai.att;
 		res = pai.res;
 		
-		
-		//TEXTOS DE DESCRIÇÕES
-		String[] trabAdm = {"CONTROLE", "DOCUMENTAÇÃO", "ORÇAMENTO E GESTÃO", "RETRABALHOS E MELHORIAS", "GERAL"};
-		String[] trabProjEng = {"DESENVOLVIMENTO", "VISITA TÉCNICA", "ELABORAÇÃO", "GESTÃO E ACOMPANHAMENTO", "DOCUMENTAÇÃO", "RETRABALHOS E MELHORIAS", "GERAL"};
-		String[] trabEle = {"MONTAGEM", "TESTES", "IDENTIFICAÇÃO", "DOCUMENTOS", "ORÇAMENTO", "GESTÃO E ACOMPANHAMENTO", "RETRABALHOS E MELHORIAS", "GERAL"};
-		String[] trabProg = {"PROGRAMAÇÃO", "PROJETO ELÉTRICO", "DOCUMENTAÇÃO", "ORÇAMENTO", "GESTÃO DE PROJETO", "RETRABALHOS E MELHORIAS", "GERAL"};
-		String[] trabMec = {"MONTAGEM", "USINAGEM", "AJUSTES", "CALDEIRARIA", "DOCUMENTAÇÃO", "ORÇAMENTO", "GESTÃO DE PROJETO", "RETRABALHOS E MELHORIAS", "GERAL"};
-
-		String[] descr = null;
-
-		//Definir descrições
-		if (att.istAdm())
-			descr = trabAdm;
-		else if (att.istProj() || att.istEng())
-			descr = trabProjEng;
-		else if (att.istEle())
-			descr = trabEle;
-		else if (att.istProg())
-			descr = trabProg;
-		else if (att.istMec())
-			descr = trabMec;
-
-
 		painel = new JPanel();
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(100,100,PW,PH);
@@ -294,8 +266,6 @@ public class DescricoesGenericas extends JFrame
 		voltar.setBackground(Color.LIGHT_GRAY);
 		voltar.setBounds(-5, -5, 35, 35);
 		painel.add(voltar);
-		
-		
 		
 	}
 }

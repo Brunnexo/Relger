@@ -97,7 +97,7 @@ public class Executar {
 			{
 				if (conectado)
 				{
-					if (adm)
+					if (!adm)
 					{
 						Movimentos erro = new Movimentos();
 						erro.deslizar(new Notificacao("Conectado", "Rede conectada!", Notificacao.EXCLAMACAO_SIMPLES), Movimentos.INFERIOR_DIREITO, false);

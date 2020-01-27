@@ -6,13 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.RoundRectangle2D;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,11 +18,12 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import backend.Executar;
+import backend.JFrameEx;
 import janelas.interacao.Senha;
 import rede.Conn;
 import threads.POI;
 import threads.Saida;
-public class Inicio extends JFrame {
+public class Inicio extends JFrameEx {
 	//Janela
 	Inicio inicio = this;
 	boolean conectado = false;
@@ -44,14 +43,15 @@ public class Inicio extends JFrame {
 
 		painel = new JPanel();
 		painel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(painel);
-		setUndecorated(true);
 		painel.setLayout(null);
 
+		setContentPane(painel);
 		setBounds(100,100,325,220);
 		setLocationRelativeTo(null);
-
-		setShape(new RoundRectangle2D.Double(0,0,325,220,5,5));
+		
+		//Parâmetros extendidos
+		setDraggable(true);
+		setRoundCorner(5);
 
 		//Gerenciar funcionários
 		gerenciarFunc = new JButton("<html><center>GERENCIAR<br/>FUNCION\u00C1RIOS</center></html>");
@@ -183,8 +183,6 @@ public class Inicio extends JFrame {
 		versao.setForeground(Color.DARK_GRAY);
 		versao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		versao.setBounds(295, 205, 29, 15);
-
-
 
 	}
 }

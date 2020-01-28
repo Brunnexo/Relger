@@ -120,9 +120,7 @@ public class Inicio extends JFrameEx {
 				{
 					contador = 0;
 					try {
-						String sql = "DBCC CHECKIDENT ('[RELATORIOS]', reseed, 0)";
-						Statement st = Conn.connection.createStatement();
-						st.execute(sql);
+						Conn.connection.createStatement().execute("DBCC CHECKIDENT ('[RELATORIOS]', reseed, 0)");
 						JOptionPane.showMessageDialog(null, "A ID do banco de dados foi reiniciada", "ID reiniciada", JOptionPane.INFORMATION_MESSAGE);
 					} catch (SQLException ex) {
 						ex.printStackTrace();

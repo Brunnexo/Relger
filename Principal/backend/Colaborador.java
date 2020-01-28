@@ -122,4 +122,8 @@ public class Colaborador {
 	public boolean[] getFuncoes() {
 		return this.funcoes;
 	}
+
+	public int getTempoTrabalhado() {
+		return tempoTrabalhado;
+	}
 }

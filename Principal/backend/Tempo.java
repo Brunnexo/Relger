@@ -37,7 +37,14 @@ public class Tempo {
 			return data.minusDays(1).toString();
 		
 	}
-	/*public int tempoMaximo() {
+	
+	public String diaFuncional() {
+		if (this.tempoAtual().getHour() < 12) {
+		}
+
+	}
+	
+	public int tempoMaximo() {
 		//Se for SÁBADO e DOMINGO
 		if (this.tempoObjetivo.getDayOfWeek() == DayOfWeek.SATURDAY || this.tempoObjetivo.getDayOfWeek() == DayOfWeek.SUNDAY || (this.hExtraProgramada && this.hExtraRegistro)) {
 			if (this.isHorista())
@@ -59,32 +66,4 @@ public class Tempo {
 			}
 		}
 	}
-	
-	public int tempoRestante() {
-		boolean fimDeSemana = (this.ldCondicional.getDayOfWeek() == DayOfWeek.SATURDAY || this.ldCondicional.getDayOfWeek() == DayOfWeek.SUNDAY);
-		boolean sextaFeira = (this.ldCondicional.getDayOfWeek() == DayOfWeek.FRIDAY);
-
-		int tempoRestante = 0;
-
-		if (this.override)
-			tempoRestante = 999;
-		else if (fimDeSemana)
-			tempoRestante = (this.tempo() - this.tempoExtraTrabalhado);
-		else if (!(this.hExtraProgramada && this.hExtraRegistro) && this.horaExtra())
-			tempoRestante = (TEMPO_HORA_EXTRA_DIARIA - this.tempoExtraTrabalhado);
-		else if (this.hExtraProgramada && this.hExtraRegistro)
-			tempoRestante = (tempo() - this.tempoExtraTrabalhado);
-		else if (sextaFeira && this.isMensalista() && (this.tempoTrabalhado >= this.tempo()) && (this.tempoTrabalhado <= (this.tempo() + TEMPO_BANCO_HORAS + 60)))
-			tempoRestante = ((this.tempo() + TEMPO_BANCO_HORAS + 60) - this.tempoTrabalhado);
-		else if (!sextaFeira && this.isMensalista() && (this.tempoTrabalhado >= (this.tempo() + TEMPO_BANCO_HORAS)))
-			tempoRestante = (TEMPO_HORA_EXTRA_DIARIA - this.tempoExtraTrabalhado);
-		else if (!sextaFeira && this.isMensalista() && (this.tempoTrabalhado >= this.tempo()) && (this.tempoTrabalhado <= (this.tempo() + TEMPO_BANCO_HORAS)))
-			tempoRestante = ((this.tempo() + TEMPO_BANCO_HORAS) - this.tempoTrabalhado);
-		else if (this.isHorista() && (this.tempoTrabalhado >= this.tempo()))
-			tempoRestante = (TEMPO_HORA_EXTRA_DIARIA - this.tempoExtraTrabalhado);
-		else if (this.tempoTrabalhado <= this.tempo())
-			tempoRestante = (this.tempo() - this.tempoTrabalhado);
-
-		return tempoRestante;
-	}*/
 }

@@ -61,7 +61,7 @@ public class Atributos
 
 	private String descTrabalho;
 
-	private boolean hExtraProgramada, hExtraRegistro = true;
+	private boolean hExtraProgramada, hExtraRegistro = false;
 
 	private boolean hExtra, bHoras;
 
@@ -382,7 +382,7 @@ public class Atributos
 	//Funcionamento de data
 	public String dataCondicional()
 	{
-		String dataResult = new String();
+  		String dataResult = new String();
 
 		//Define se há registro de hora extra agendada no crachá
 		try {
@@ -405,7 +405,7 @@ public class Atributos
 		}
 		else
 		{
-			if (this.hExtraProgramada && this.hExtraRegistro)
+			if ((this.hExtraProgramada && this.hExtraRegistro) && ((this.ld.compareTo(LocalDate.parse(dataResult)) > 0)))
 				retornoParse = dataResult.split("-");
 			else
 			{
@@ -425,8 +425,7 @@ public class Atributos
 		return retornoParse[2] + "/" + retornoParse[1] + "/" + retornoParse[0];
 	}
 
-	public String dataCondicionalFormatada()
-	{
+	public String dataCondicionalFormatada() {
 		String dataResult = new String();
 
 		//Define se há registro de hora extra agendada no crachá

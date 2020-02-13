@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
@@ -135,7 +136,17 @@ public class GerarRelatorio extends JFrame
 				periodoA = ((String) selecaoA.get(2).getSelectedItem().toString() + "-" + selecaoA.get(1).getSelectedItem().toString() + "-" + selecaoA.get(0).getSelectedItem().toString());
 				periodoB = ((String) selecaoB.get(2).getSelectedItem().toString() + "-" + selecaoB.get(1).getSelectedItem().toString() + "-" + selecaoB.get(0).getSelectedItem().toString());
 
-				Relatorios.carregarPeriodo(periodoA, periodoB, (int) cc.getSelectedItem());
+				
+				int x = JOptionPane.showOptionDialog(null, "Escolha uma das opções abaixo", "Opção de relatório", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[] {"Trainees", "Efetivos"}, 0);
+				
+				switch (x) {
+				case 0:
+					Relatorios.carregarPeriodo(periodoA, periodoB, (int) cc.getSelectedItem(), true);
+					break;
+				case 1:
+					Relatorios.carregarPeriodo(periodoA, periodoB, (int) cc.getSelectedItem(), false);
+					break;
+				}
 			}
 		});
 
@@ -143,7 +154,16 @@ public class GerarRelatorio extends JFrame
 		gerarTotal.setBounds(203, 377, 100, 50);
 		gerarTotal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Relatorios.carregarTotal((int) cc.getSelectedItem());
+				int x = JOptionPane.showOptionDialog(null, "Escolha uma das opções abaixo", "Opção de relatório", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[] {"Trainees", "Efetivos"}, 0);
+				
+				switch (x) {
+				case 0:
+					Relatorios.carregarTotal((int) cc.getSelectedItem(), true);
+					break;
+				case 1:
+					Relatorios.carregarTotal((int) cc.getSelectedItem(), false);
+					break;
+				}
 			}
 		});
 
@@ -304,7 +324,17 @@ public class GerarRelatorio extends JFrame
 		JButton gerarUltSemana = new JButton("<html><center>\u00DALTIMA SEMANA</center></html>");
 		gerarUltSemana.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Relatorios.carregarPeriodo(LocalDate.now().with(DayOfWeek.MONDAY).toString(), LocalDate.now().with(DayOfWeek.FRIDAY).toString(), (int) cc.getSelectedItem());
+				
+				int x = JOptionPane.showOptionDialog(null, "Escolha uma das opções abaixo", "Opção de relatório", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[] {"Trainees", "Efetivos"}, 0);
+				
+				switch (x) {
+				case 0:
+					Relatorios.carregarPeriodo(LocalDate.now().with(DayOfWeek.MONDAY).toString(), LocalDate.now().with(DayOfWeek.FRIDAY).toString(), (int) cc.getSelectedItem(), true);
+					break;
+				case 1:
+					Relatorios.carregarPeriodo(LocalDate.now().with(DayOfWeek.MONDAY).toString(), LocalDate.now().with(DayOfWeek.FRIDAY).toString(), (int) cc.getSelectedItem(), false);
+					break;
+				}
 			}
 		});
 		gerarUltSemana.setForeground(Color.DARK_GRAY);

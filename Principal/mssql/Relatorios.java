@@ -31,8 +31,7 @@ import rede.Conn;
 
 public class Relatorios {
 
-	public static int registrar(Atributos att, int tempo)
-	{
+	public static int registrar(Atributos att, int tempo) {
 		try
 		{
 			String sql = "INSERT INTO [dbo].[RELATORIOS] ([DATA],[CRACHA],[FUNCAO],[WO],[DESCRICAO],[TEMPO],[HE]) VALUES(?,?,?,?,?,?,?)";
@@ -74,8 +73,7 @@ public class Relatorios {
 		}
 	}
 
-	public static int deletar(int id, int cracha, String wo)
-	{
+	public static int deletar(int id, int cracha, String wo) {
 		try
 		{
 			String sql = "DELETE FROM [dbo].[RELATORIOS] WHERE ID = ? AND CRACHA = ? AND WO = ?";
@@ -119,8 +117,7 @@ public class Relatorios {
 		}
 	}
 
-	public static ResultSet pendentes()
-	{
+	public static ResultSet pendentes() {
 		try {
 			String sql = "SELECT [F].[NOME],[R].[CRACHA],MAX([R].[DATA]) AS 'ÚTLIMO REGISTRO', (SELECT CASE WHEN MAX([R].[DATA]) < ? THEN 'SIM' ELSE 'NÃO' END AS 'ATRASADO') AS 'ATRASADO' FROM [dbo].[RELATORIOS] AS [R] INNER JOIN [dbo].[FUNCIONARIOS] AS [F] ON [F].[CRACHA] = [R].[CRACHA] GROUP BY [F].[NOME], [R].[CRACHA] ORDER BY [F].[NOME] ASC";
 			PreparedStatement st = Conn.connection.prepareStatement(sql, SQLServerResultSet.TYPE_SCROLL_INSENSITIVE, SQLServerResultSet.CONCUR_READ_ONLY);
@@ -133,19 +130,19 @@ public class Relatorios {
 		}
 	}
 
-	public static void carregarTotal(int cc)
+	public static void carregarTotal(int cc, boolean trainee)
 	{
 		Thread executar = new Thread()
 		{
 			public void run()
 			{
-				executarCarregarTotal(cc);
+				executarCarregarTotal(cc, trainee);
 			}
 		};
 		executar.start();
 	}
 
-	public static void executarCarregarTotal(int cc)
+	public static void executarCarregarTotal(int cc, boolean trainee)
 	{
 		janelas.Progresso progresso = new janelas.Progresso("Carregando...", "Criando planilhas...");
 		progresso.mostrar();
@@ -154,14 +151,14 @@ public class Relatorios {
 			int contagem = 0;
 
 			Statement pRelst = Conn.connection.createStatement();
-			ResultSet rsSt = pRelst.executeQuery("SELECT COUNT(*) FROM RELATORIOS AS [R] INNER JOIN [dbo].[FUNCIONARIOS] AS [F] ON [R].[CRACHA] = [F].[CRACHA] WHERE [F].[CC] = " + cc);
+			ResultSet rsSt = pRelst.executeQuery("SELECT COUNT(*) FROM RELATORIOS AS [R] INNER JOIN [dbo].[FUNCIONARIOS] AS [F] ON [R].[CRACHA] = [F].[CRACHA] WHERE [F].[CC] = " + cc + " AND [F].[TRAINEE] = '" + trainee + "'");
 
 			while(rsSt.next())
 			{
 				contagem = rsSt.getInt(1);
 				System.out.println("Contagem: " + contagem);
 			}
-			PreparedStatement pRel = Conn.connection.prepareStatement("SELECT [R].[ID], [R].[DATA], [R].[CRACHA], [R].[FUNCAO], [R].[WO], [R].[DESCRICAO], [R].[TEMPO], [R].[HE]  FROM [dbo].[RELATORIOS] AS [R] INNER JOIN [dbo].[FUNCIONARIOS] AS [F] ON [R].[CRACHA] = [F].[CRACHA] WHERE [F].[CC] = ? ORDER BY [DATA], [CRACHA]");
+			PreparedStatement pRel = Conn.connection.prepareStatement("SELECT [R].[ID], [R].[DATA], [R].[CRACHA], [R].[FUNCAO], [R].[WO], [R].[DESCRICAO], [R].[TEMPO], [R].[HE]  FROM [dbo].[RELATORIOS] AS [R] INNER JOIN [dbo].[FUNCIONARIOS] AS [F] ON [R].[CRACHA] = [F].[CRACHA] WHERE [F].[CC] = ? AND [F].[TRAINEE] = '" + trainee + "' ORDER BY [DATA], [CRACHA]");
 			pRel.setInt(1, cc);
 			pRel.execute();
 
@@ -352,19 +349,19 @@ public class Relatorios {
 		}
 	}
 
-	public static void carregarPeriodo(String periodoA, String periodoB, int cc)
+	public static void carregarPeriodo(String periodoA, String periodoB, int cc, boolean trainee)
 	{
 		Thread executar = new Thread()
 		{
 			public void run()
 			{
-				executarCarregarPeriodo(periodoA, periodoB, cc);
+				executarCarregarPeriodo(periodoA, periodoB, cc, trainee);
 			}
 		};
 		executar.start();
 	}
 
-	public static void executarCarregarPeriodo(String periodoA, String periodoB, int cc)
+	public static void executarCarregarPeriodo(String periodoA, String periodoB, int cc, boolean trainee)
 	{
 		janelas.Progresso progresso = new janelas.Progresso("Carregando...", "Criando planilhas...");
 		progresso.mostrar();
@@ -372,7 +369,10 @@ public class Relatorios {
 		{
 			int contagem = 0;
 
-			PreparedStatement pRelst = Conn.connection.prepareStatement("SELECT COUNT(*) FROM RELATORIOS AS [R] INNER JOIN [dbo].[FUNCIONARIOS] AS [F] ON [R].[CRACHA] = [F].[CRACHA] WHERE [F].[CC] = ? AND [DATA] BETWEEN ? AND ?");
+			PreparedStatement pRelst;
+
+			pRelst = Conn.connection.prepareStatement("SELECT COUNT(*) FROM RELATORIOS AS [R] INNER JOIN [dbo].[FUNCIONARIOS] AS [F] ON [R].[CRACHA] = [F].[CRACHA] WHERE [F].[CC] = ?  AND [F].[TRAINEE] = '" + trainee + "' AND [DATA] BETWEEN ? AND ?");
+
 			pRelst.setInt(1, cc);
 			pRelst.setString(2, periodoA);
 			pRelst.setString(3, periodoB);
@@ -385,8 +385,7 @@ public class Relatorios {
 				System.out.println("Contagem: " + contagem);
 			}
 
-			//
-			PreparedStatement pRel = Conn.connection.prepareStatement("SELECT [R].[ID], [R].[DATA], [R].[CRACHA], [R].[FUNCAO], [R].[WO], [R].[DESCRICAO], [R].[TEMPO], [R].[HE]  FROM [dbo].[RELATORIOS] AS [R] INNER JOIN [dbo].[FUNCIONARIOS] AS [F] ON [R].[CRACHA] = [F].[CRACHA] WHERE [F].[CC] = ? AND [DATA] BETWEEN ? AND ? ORDER BY [DATA], [CRACHA]");
+			PreparedStatement pRel = Conn.connection.prepareStatement("SELECT [R].[ID], [R].[DATA], [R].[CRACHA], [R].[FUNCAO], [R].[WO], [R].[DESCRICAO], [R].[TEMPO], [R].[HE]  FROM [dbo].[RELATORIOS] AS [R] INNER JOIN [dbo].[FUNCIONARIOS] AS [F] ON [R].[CRACHA] = [F].[CRACHA] WHERE [F].[CC] = ?  AND [F].[TRAINEE] = '" + trainee + "' AND [DATA] BETWEEN ? AND ? ORDER BY [DATA], [CRACHA]");
 			pRel.setInt(1, cc);
 			pRel.setString(2, periodoA);
 			pRel.setString(3, periodoB);
@@ -598,7 +597,7 @@ public class Relatorios {
 		celula.setCellValue("Relatório de Pendências de Apontamento de Serviço - " + reverterData(LocalDate.now().toString()));
 		celula.getCellStyle().setAlignment(HorizontalAlignment.CENTER);
 		planilha.addMergedRegion(new CellRangeAddress(0, 1, 0, 3));
-		
+
 		//LINHA 2
 		linha = planilha.createRow(2);
 
@@ -650,7 +649,7 @@ public class Relatorios {
 		planilha.autoSizeColumn(1);
 		planilha.autoSizeColumn(2);
 		planilha.autoSizeColumn(3);
-		
+
 		File caminho = new File(System.getenv("USERPROFILE") + "/Documents/Relatórios/Pendências/" + converterData(LocalDate.now().minus(Period.ofDays(1)).toString()));
 		File arquivo = new File(System.getenv("USERPROFILE") + "/Documents/Relatórios/Pendências/" + converterData(LocalDate.now().minus(Period.ofDays(1)).toString()) + "/Relatório.xlsx");
 
@@ -675,7 +674,7 @@ public class Relatorios {
 		String[] separado = data.split("-");
 		return separado[2] + "/" + separado[1] + "/" + separado[0];
 	}
-	
+
 	static String converterData (String data)
 	{
 		String[] separado = data.split("-");

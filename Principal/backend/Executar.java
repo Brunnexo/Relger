@@ -25,7 +25,7 @@ import threads.PendenciasCheck;
 
 public class Executar {
 
-	public final static String VERSAO = "1.2.7";
+	public final static String VERSAO = "1.2.9";
 	
 	static boolean terminal;
 	static boolean adm;
@@ -34,8 +34,7 @@ public class Executar {
 	static boolean JCIFSConectado;
 	static boolean SQLConectado;
 
-	public static void main(String[] e) throws IOException, InterruptedException, ExecutionException, SQLException
-	{
+	public static void main(String[] e) throws IOException, InterruptedException, ExecutionException, SQLException {
 		LookAndFeel.alterar("Nimbus");
 		
 		Movimentos mov = new Movimentos();
@@ -137,7 +136,6 @@ public class Executar {
 
 		iniciar.start();
 		checarProgramaNovo.start();
-
 		if (adm)
 			checarPendencias.start();
 		if (servidor)

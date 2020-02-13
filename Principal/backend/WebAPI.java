@@ -12,29 +12,47 @@ public class WebAPI {
 	final static String CONTINENTE = "America";
 	final static String REGIAO = "Sao_Paulo";
 
+	public static int difDia, difMes, difAno;
+	public static int difHora, difMinuto, difSegundo;
+
+	static boolean acessoData, acessoDataHora;
+
 	public static LocalDate dataAtual() {
 		String data = new String();
 		LocalDate ld = LocalDate.now();
-		try {
-			URL link = new URL("http://worldtimeapi.org/api/timezone/" + CONTINENTE + "/" + REGIAO + ".txt");
-			
-			BufferedReader entrada = new BufferedReader(new InputStreamReader(link.openStream()));
-			
-			String linhaEntrada;
 
-			while ((linhaEntrada = entrada.readLine()) != null)
-			{
-				if (linhaEntrada.contains("utc_datetime: "))
-					break;
-			}
-			entrada.close();
+		if (!acessoData) {
+			try {
+				URL link = new URL("http://worldtimeapi.org/api/timezone/" + CONTINENTE + "/" + REGIAO + ".txt");
+				BufferedReader entrada = new BufferedReader(new InputStreamReader(link.openStream()));
+				String linhaEntrada;
 
-			data = linhaEntrada.substring((linhaEntrada.indexOf(": ") + 2), linhaEntrada.indexOf("T"));
+				while ((linhaEntrada = entrada.readLine()) != null) {
+					if (linhaEntrada.contains("utc_datetime: "))
+						break;
+				}
+				entrada.close();
 
-			ld = LocalDate.parse(data);
-			System.out.println("Data WEB: " + data.toString());
-			return ld;
-		} catch (IOException e ) {}
+				data = linhaEntrada.substring((linhaEntrada.indexOf(": ") + 2), linhaEntrada.indexOf("T"));
+
+				ld = LocalDate.parse(data);
+				System.out.println("Data WEB: " + data.toString());
+
+				difDia = LocalDate.now().getDayOfMonth() - ld.getDayOfMonth();
+				difMes = LocalDate.now().getMonthValue() - ld.getMonthValue();
+				difAno = LocalDate.now().getYear() - ld.getYear();
+
+				acessoData = true;
+			} catch (IOException e ) {}
+		}
+		else {
+			ld = LocalDate.now().minusDays(difDia).minusMonths(difMes).minusYears(difAno);
+			System.out.println("Data WEB: " + ld.toString());
+			System.out.println("Correções");
+			System.out.println("Diferença em dias: " + difDia);
+			System.out.println("Diferença em meses: " + difMes);
+			System.out.println("Diferença em anos: " + difAno);
+		}
 		return ld;
 	}
 
@@ -42,24 +60,42 @@ public class WebAPI {
 		String hora = new String();
 		LocalDateTime ldt = LocalDateTime.now();
 
-		try {
-			URL link = new URL("http://worldtimeapi.org/api/timezone/" + CONTINENTE + "/" + REGIAO + ".txt");
+		if (!acessoDataHora) {
+			try {
+				URL link = new URL("http://worldtimeapi.org/api/timezone/" + CONTINENTE + "/" + REGIAO + ".txt");
+				BufferedReader entrada = new BufferedReader (new InputStreamReader(link.openStream()));
+				String linhaEntrada;
+				while ((linhaEntrada = entrada.readLine()) != null) {
+					if (linhaEntrada.contains("datetime: "))
+						break;
+				}
+				entrada.close();
+				hora = linhaEntrada.substring((linhaEntrada.indexOf(": ") + 2)).substring(0, 19);
+				ldt = LocalDateTime.parse(hora);
+				System.out.println("Hora WEB: " + hora);
 
-			BufferedReader entrada = new BufferedReader (new InputStreamReader(link.openStream()));
+				difDia = LocalDateTime.now().getDayOfMonth() - ldt.getDayOfMonth();
+				difMes = LocalDateTime.now().getMonthValue() - ldt.getMonthValue();
+				difAno = LocalDateTime.now().getYear() - ldt.getYear();
 
-			String linhaEntrada;
+				difHora = LocalDateTime.now().getHour() - ldt.getHour();
+				difMinuto = LocalDateTime.now().getMinute() - ldt.getMinute();
+				difSegundo = LocalDateTime.now().getSecond() - ldt.getSecond();
 
-			while ((linhaEntrada = entrada.readLine()) != null)
-			{
-				if (linhaEntrada.contains("datetime: "))
-					break;
-			}
-			entrada.close();
-			hora = linhaEntrada.substring((linhaEntrada.indexOf(": ") + 2)).substring(0, 19);
-			ldt = LocalDateTime.parse(hora);
-			System.out.println("Hora WEB: " + hora);
-			return ldt;
-		} catch (IOException e) {}
+				acessoDataHora = true;
+			} catch (IOException e) {}
+		}
+		else {
+			ldt = LocalDateTime.now().minusDays(difDia).minusMonths(difMes).minusYears(difAno).minusHours(difHora).minusMinutes(difMinuto).minusSeconds(difSegundo);
+			System.out.println("Hora WEB: " + ldt.toString());
+			System.out.println("Correções");
+			System.out.println("Diferença em dias: " + difDia);
+			System.out.println("Diferença em meses: " + difMes);
+			System.out.println("Diferença em anos: " + difAno);
+			System.out.println("Diferença em horas: " + difHora);
+			System.out.println("Diferença em minutos: " + difMinuto);
+			System.out.println("Diferença em segundos: " + difSegundo);
+		}
 		return ldt;
 	}
 }

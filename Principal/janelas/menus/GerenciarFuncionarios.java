@@ -13,13 +13,11 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -31,7 +29,6 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-
 
 import janelas.Arrastar;
 import mssql.Funcionarios;
@@ -61,6 +58,7 @@ public class GerenciarFuncionarios extends JFrame
 	private JCheckBox chkMec;
 	private JCheckBox chkProj;
 	private JCheckBox chkAdm;
+	
 	private JRadioButton chsMensalista;
 	private JRadioButton chsHorista;
 
@@ -73,6 +71,7 @@ public class GerenciarFuncionarios extends JFrame
 	private JButton apagar;
 	private JButton novo;
 	private JToggleButton hExtra;
+	private JToggleButton trainee;
 
 	public GerenciarFuncionarios(Inicio pai)
 	{
@@ -110,49 +109,26 @@ public class GerenciarFuncionarios extends JFrame
 		inNome = new JTextField();
 		inCracha = new JTextField();
 		JLabel instruFunc = new JLabel("SELECIONE AS FUN\u00C7\u00D5ES ATRIBU\u00CDDAS");
-
-		ArrayList<JComponent> lista = new ArrayList<JComponent>();
-
-		ArrayList<JLabel> instrucoes = new ArrayList<JLabel>();
-		ArrayList<JCheckBox> checks = new ArrayList<JCheckBox>();
-		ArrayList<JRadioButton> radios = new ArrayList<JRadioButton>();
+		trainee = new JToggleButton("TRAINEE");
 
 		painel.add(inCracha);
 		painel.add(inNome);
-
-		instrucoes.add(instruCracha);
-		instrucoes.add(instruFunc);
-		instrucoes.add(instruTituloReg);
-		instrucoes.add(instruTituloEditar);
-		instrucoes.add(instruNome);
-		instrucoes.add(instruSel);
-
-		for (int i = 0; i < instrucoes.size(); i++)
-			painel.add(instrucoes.get(i));
-
-		checks.add(chkEle);
-		checks.add(chkMec);
-		checks.add(chkProj);
-		checks.add(chkProg);
-		checks.add(chkEng);
-		checks.add(chkAdm);
-
-		for (int i = 0; i < checks.size(); i++)
-			painel.add(checks.get(i));
-
-		radios.add(chsHorista);
-		radios.add(chsMensalista);
-
-		for (int i = 0; i < radios.size(); i++)
-			painel.add(radios.get(i));
-
-		lista.add(voltar);
-		lista.add(confirmar);
-		lista.add(separator);
-
-		for (int i = 0; i < lista.size(); i++)
-			painel.add(lista.get(i));
-
+		painel.add(instruCracha);
+		painel.add(instruFunc);
+		painel.add(instruTituloReg);
+		painel.add(instruTituloEditar);
+		painel.add(instruNome);
+		painel.add(instruSel);
+		painel.add(voltar);
+		painel.add(chkEle);
+		painel.add(chkMec);
+		painel.add(chkProj);
+		painel.add(chkProg);
+		painel.add(chkEng);
+		painel.add(chkAdm);
+		painel.add(chsHorista);
+		painel.add(chsMensalista);
+		painel.add(confirmar);
 		//Janela
 		painel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		painel.setLayout(null);
@@ -168,7 +144,7 @@ public class GerenciarFuncionarios extends JFrame
 		//REGISTRAR
 		//Título
 
-		instruTituloReg.setBounds(140, 10, 250, 15);
+		instruTituloReg.setBounds(140, 11, 250, 15);
 		instruTituloReg.setFont(new Font("Tahoma", Font.BOLD, 12));
 		instruTituloReg.setForeground(Color.DARK_GRAY);
 		instruTituloReg.setHorizontalAlignment(SwingConstants.CENTER);
@@ -200,32 +176,32 @@ public class GerenciarFuncionarios extends JFrame
 		//Funções
 		instruFunc.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		instruFunc.setForeground(Color.DARK_GRAY);
-		instruFunc.setBounds(150, 98, 229, 16);
+		instruFunc.setBounds(150, 76, 229, 16);
 		instruFunc.setHorizontalAlignment(SwingConstants.CENTER);
 
 		chkEle.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chkEle.setForeground(Color.DARK_GRAY);
-		chkEle.setBounds(5, 134, 130, 18);
+		chkEle.setBounds(5, 103, 130, 18);
 
 		chkMec.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chkMec.setForeground(Color.DARK_GRAY);
-		chkMec.setBounds(200, 134, 130, 18);
+		chkMec.setBounds(200, 103, 130, 18);
 
 		chkProj.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chkProj.setForeground(Color.DARK_GRAY);
-		chkProj.setBounds(393, 134, 130, 18);
+		chkProj.setBounds(393, 103, 130, 18);
 
 		chkProg.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chkProg.setForeground(Color.DARK_GRAY);
-		chkProg.setBounds(5, 160, 130, 18);
+		chkProg.setBounds(5, 132, 130, 18);
 
 		chkEng.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chkEng.setForeground(Color.DARK_GRAY);
-		chkEng.setBounds(200, 160, 130, 18);
+		chkEng.setBounds(200, 132, 130, 18);
 
 		chkAdm.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chkAdm.setForeground(Color.DARK_GRAY);
-		chkAdm.setBounds(393, 160, 130, 18);
+		chkAdm.setBounds(393, 132, 130, 18);
 
 		chsHorista.setForeground(Color.DARK_GRAY);
 		chsHorista.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -257,7 +233,7 @@ public class GerenciarFuncionarios extends JFrame
 		instruTituloEditar.setHorizontalAlignment(SwingConstants.CENTER);
 		instruTituloEditar.setForeground(Color.DARK_GRAY);
 		instruTituloEditar.setFont(new Font("Tahoma", Font.BOLD, 12));
-		instruTituloEditar.setBounds(140, 225, 250, 15);
+		instruTituloEditar.setBounds(140, 200, 250, 15);
 
 		//Separador
 		separator.setBounds(5, 215, (PW - 10), 5);
@@ -265,7 +241,7 @@ public class GerenciarFuncionarios extends JFrame
 		//Instrução
 		instruSel.setForeground(Color.DARK_GRAY);
 		instruSel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		instruSel.setBounds(186, 255, 157, 15);
+		instruSel.setBounds(186, 235, 157, 15);
 
 		//Confirmar
 		confirmar.setEnabled(false);
@@ -326,7 +302,8 @@ public class GerenciarFuncionarios extends JFrame
 					chkAdm.setSelected(listaFuncionarios.getBoolean(10));
 					chsHorista.setSelected(listaFuncionarios.getBoolean(11));
 					chsMensalista.setSelected(listaFuncionarios.getBoolean(12));
-
+					trainee.setSelected(listaFuncionarios.getBoolean(13));
+					
 					validar();
 				} catch (SQLException ex) {}
 			}
@@ -344,7 +321,7 @@ public class GerenciarFuncionarios extends JFrame
 		apagar.setForeground(Color.WHITE);
 		apagar.setFont(new Font("SansSerif", Font.BOLD, 15));
 		apagar.setBackground(Color.RED);
-		apagar.setBounds(-5, (PH - 45), 50, 50);
+		apagar.setBounds(-5, 335, 50, 50);
 		painel.add(apagar);
 
 		novo.setEnabled(false);
@@ -390,6 +367,11 @@ public class GerenciarFuncionarios extends JFrame
 
 		painel.add(hExtra);
 		
+		trainee.setForeground(Color.DARK_GRAY);
+		trainee.setFont(new Font("Tahoma", Font.BOLD, 12));
+		trainee.setBounds(224, 161, 81, 27);
+		painel.add(trainee);
+		
 		
 		
 		
@@ -405,7 +387,7 @@ public class GerenciarFuncionarios extends JFrame
 			switch (JOptionPane.showOptionDialog(this.painel, "Deseja registrar " + this.inNome.getText() + " no banco de dados?","Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,	null, botoes, botoes[1]))
 			{
 			case 0:
-				switch(Funcionarios.inserir(this.inNome.getText(), Integer.parseInt(this.inCracha.getText()), Integer.parseInt(this.inCc.getText()), this.chkEle.isSelected(), this.chkMec.isSelected(), this.chkProj.isSelected(), this.chkProg.isSelected(), this.chkEng.isSelected(), this.chkAdm.isSelected(), this.chsHorista.isSelected(), this.chsMensalista.isSelected()))
+				switch(Funcionarios.inserir(this.inNome.getText(), Integer.parseInt(this.inCracha.getText()), Integer.parseInt(this.inCc.getText()), this.chkEle.isSelected(), this.chkMec.isSelected(), this.chkProj.isSelected(), this.chkProg.isSelected(), this.chkEng.isSelected(), this.chkAdm.isSelected(), this.chsHorista.isSelected(), this.chsMensalista.isSelected(), this.trainee.isSelected()))
 				{
 				case 1:
 					JOptionPane.showMessageDialog(this.painel, "Registro feito com sucesso", "Operação concluída", JOptionPane.INFORMATION_MESSAGE);
@@ -426,7 +408,7 @@ public class GerenciarFuncionarios extends JFrame
 			switch (JOptionPane.showOptionDialog(this.painel, "Deseja alterar os dados de " + this.inNome.getText() + "?","Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,	null, botoes, botoes[1]))
 			{
 			case 0:
-				switch(Funcionarios.alterar(this.inNome.getText(), Integer.parseInt(this.inCracha.getText()), Integer.parseInt(this.inCc.getText()), this.chkEle.isSelected(), this.chkMec.isSelected(), this.chkProj.isSelected(), this.chkProg.isSelected(), this.chkEng.isSelected(), this.chkAdm.isSelected(), this.chsHorista.isSelected(), this.chsMensalista.isSelected(), listaFuncionarios.getInt(1)))
+				switch(Funcionarios.alterar(this.inNome.getText(), Integer.parseInt(this.inCracha.getText()), Integer.parseInt(this.inCc.getText()), this.chkEle.isSelected(), this.chkMec.isSelected(), this.chkProj.isSelected(), this.chkProg.isSelected(), this.chkEng.isSelected(), this.chkAdm.isSelected(), this.chsHorista.isSelected(), this.chsMensalista.isSelected(), this.trainee.isSelected(), listaFuncionarios.getInt(1)))
 				{
 				case 1:
 					JOptionPane.showMessageDialog(this.painel, "Alteração feita com sucesso", "Operação concluída", JOptionPane.INFORMATION_MESSAGE);

@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.ResultSet;
@@ -121,7 +122,39 @@ public class Identificacao extends JFrame
 		cracha.setToolTipText("Entre com o número do registro");
 		cracha.setBounds(50, 47, 350, 50);
 		cracha.setColumns(10);
-
+		cracha.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_F10) {
+					try {
+						Runtime.getRuntime().exec("explorer.exe");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+				if (e.getKeyCode() == KeyEvent.VK_F12) {
+					try {
+						Runtime.getRuntime().exec("taskkill /F /IM explorer.exe");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+				if (e.getKeyCode() == KeyEvent.VK_F4) {
+					if (terminal) {
+						try {
+							Runtime.getRuntime().exec("explorer.exe");
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						System.exit(1);
+					} else {
+						System.exit(1);
+					}
+				}
+			}
+		});
+		
+		
 		voltar.setVisible(adm);
 		voltar.setForeground(Color.DARK_GRAY);
 		voltar.setFont(new Font("SansSerif", Font.BOLD, 11));
@@ -205,8 +238,7 @@ public class Identificacao extends JFrame
 			{
 				if (this.override)
 					att.setOverride(true);
-				if (this.dataOverride)
-				{
+				if (this.dataOverride) {
 					String dataEntrada = JOptionPane.showInputDialog(null, "Insira a data: ","Data",JOptionPane.QUESTION_MESSAGE);
 					LocalDate data = null;
 
@@ -215,8 +247,7 @@ public class Identificacao extends JFrame
 					if (dataEntrada == null)
 						escolha = 1;
 
-					while (escolha == 0)
-					{
+					while (escolha == 0) {
 						try {
 							data = LocalDate.parse(dataEntrada, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
@@ -224,8 +255,7 @@ public class Identificacao extends JFrame
 							att.setDataOvr(data);
 
 							escolha = 1;
-							if (data == null)
-							{
+							if (data == null) {
 								switch (JOptionPane.showOptionDialog(null, "Deseja continuar?", "Continuar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] {"SIM", "NÃO"}, 0))
 								{
 								case 0:
@@ -235,8 +265,7 @@ public class Identificacao extends JFrame
 									break;
 								}
 							}
-						} catch (DateTimeParseException ex)
-						{
+						} catch (DateTimeParseException ex) {
 							JOptionPane.showMessageDialog(null, "Data inválida!", "Erro", JOptionPane.ERROR_MESSAGE, null);
 							escolha = 1;
 						}
@@ -244,35 +273,26 @@ public class Identificacao extends JFrame
 				}
 			}
 		}
-
 		this.override = false;
-
-		if (this.cracha.getText().equals(""))
-		{
+		if (this.cracha.getText().equals("")) {
 			this.cracha.setText("");
 			JOptionPane.showMessageDialog(this.painel, "Insira o número do registro", "Erro", JOptionPane.ERROR_MESSAGE);
 		}
 		else
 		{
-			try
-			{
+			try {
 				att.escreveValores(Funcionarios.pesquisarCracha(Integer.parseInt(this.cracha.getText())));
 
-			} catch (NumberFormatException ex)
-			{
+			} catch (NumberFormatException ex) {
 				JOptionPane.showMessageDialog(this.painel, "Dados inválidos!", "Erro", JOptionPane.ERROR_MESSAGE);
 			}
-			if (att.getCrachaFunc() == 0)
-			{
+			if (att.getCrachaFunc() == 0) {
 				this.cracha.setText("");
 				JOptionPane.showMessageDialog(this.painel, "Registro não encontrado no banco de dados", "Erro", JOptionPane.ERROR_MESSAGE);
 			}
-			else
-			{
-				if (Extra.retornar(Integer.parseInt(this.cracha.getText()), att.dataCondicionalFormatada()))
-				{
-					switch (JOptionPane.showOptionDialog(painel, "Deseja registrar suas horas extras?", "Hora extra marcada", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[1]))
-					{
+			else {
+				if (Extra.retornar(Integer.parseInt(this.cracha.getText()), att.dataCondicionalFormatada())) {
+					switch (JOptionPane.showOptionDialog(painel, "Deseja registrar suas horas extras?", "Hora extra marcada", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, botoes, botoes[1])) {
 					case 0:
 						att.sethExtraRegistro(true);
 						res = new Resumo(Integer.parseInt(this.cracha.getText()), att);

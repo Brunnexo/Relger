@@ -10,9 +10,9 @@ import rede.Conn;
 
 public class Funcionarios {
 
-	public static int inserir(String nome, int cracha, int cc, boolean ele, boolean mec, boolean proj, boolean prog, boolean eng, boolean adm, boolean horista, boolean mensalista) {
+	public static int inserir(String nome, int cracha, int cc, boolean ele, boolean mec, boolean proj, boolean prog, boolean eng, boolean adm, boolean horista, boolean mensalista, boolean trainee) {
 		try {
-			String sql = "INSERT INTO [dbo].[FUNCIONARIOS] ([NOME],[CRACHA],[CC],[ELE],[MEC],[PROJ],[PROG],[ENG],[ADM],[HORISTA],[MENSALISTA])VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO [dbo].[FUNCIONARIOS] ([NOME],[CRACHA],[CC],[ELE],[MEC],[PROJ],[PROG],[ENG],[ADM],[HORISTA],[MENSALISTA], [TRAINEE])VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement st = Conn.connection.prepareStatement(sql, SQLServerResultSet.TYPE_SCROLL_INSENSITIVE, SQLServerResultSet.CONCUR_READ_ONLY);
 
 			st.setString(1, nome);
@@ -26,6 +26,7 @@ public class Funcionarios {
 			st.setBoolean(9, adm);
 			st.setBoolean(10, horista);
 			st.setBoolean(11, mensalista);
+			st.setBoolean(12, trainee);
 			st.executeUpdate();
 			return 1;
 		} catch (SQLException e) {
@@ -34,9 +35,9 @@ public class Funcionarios {
 		}
 	}
 
-	public static int alterar(String nome, int cracha, int cc, boolean ele, boolean mec, boolean proj, boolean prog, boolean eng, boolean adm, boolean horista, boolean mensalista, int id) {
+	public static int alterar(String nome, int cracha, int cc, boolean ele, boolean mec, boolean proj, boolean prog, boolean eng, boolean adm, boolean horista, boolean mensalista, boolean trainee, int id) {
 		try {
-			String sql = "UPDATE [dbo].[FUNCIONARIOS] SET [NOME] = ?, [CRACHA] = ?, [CC] = ?, [ELE] = ?, [MEC] = ?, [PROJ] = ?, [PROG] = ?, [ENG] = ?, [ADM] = ?, [HORISTA] = ?, [MENSALISTA] = ? WHERE id = " + id;
+			String sql = "UPDATE [dbo].[FUNCIONARIOS] SET [NOME] = ?, [CRACHA] = ?, [CC] = ?, [ELE] = ?, [MEC] = ?, [PROJ] = ?, [PROG] = ?, [ENG] = ?, [ADM] = ?, [HORISTA] = ?, [MENSALISTA] = ?, [TRAINEE] = ? WHERE id = " + id;
 			PreparedStatement st = Conn.connection.prepareStatement(sql, SQLServerResultSet.TYPE_SCROLL_INSENSITIVE, SQLServerResultSet.CONCUR_READ_ONLY);
 
 			st.setString(1, nome);
@@ -50,6 +51,9 @@ public class Funcionarios {
 			st.setBoolean(9, adm);
 			st.setBoolean(10, horista);
 			st.setBoolean(11, mensalista);
+			
+			st.setBoolean(12, trainee);
+			
 			st.executeUpdate();
 			return 1;
 		} catch (SQLException e) {
@@ -72,7 +76,7 @@ public class Funcionarios {
 
 	public static ResultSet retornar() {
 		try {
-			String sql = "SELECT [ID], [NOME], [CRACHA], [CC], [ELE], [MEC], [PROJ], [PROG], [ENG], [ADM], [HORISTA], [MENSALISTA] FROM [dbo].[FUNCIONARIOS]";
+			String sql = "SELECT [ID], [NOME], [CRACHA], [CC], [ELE], [MEC], [PROJ], [PROG], [ENG], [ADM], [HORISTA], [MENSALISTA], [TRAINEE] FROM [dbo].[FUNCIONARIOS]";
 			PreparedStatement st = Conn.connection.prepareStatement(sql, SQLServerResultSet.TYPE_SCROLL_INSENSITIVE, SQLServerResultSet.CONCUR_READ_ONLY);
 
 			return st.executeQuery();

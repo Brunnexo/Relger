@@ -24,23 +24,18 @@ public class POIProjetos {
 
 	static File temp = new File(TEMP);
 
-	public static void LerPlanilha(SmbFile arquivo) throws IOException
-	{
-		while (temp.exists())
-		{
+	public static void LerPlanilha(SmbFile arquivo) throws IOException {
+		while (temp.exists()) {
 			temp.delete();
 		}
 		Executar(arquivo);
 	}
 
-	public static void Executar(SmbFile arquivo) throws IOException
-	{
-		try
-		{
+	public static void Executar(SmbFile arquivo) throws IOException {
+		try {
 			Statement stateprojetos = Conn.connection.createStatement();
 			stateprojetos.executeUpdate("DELETE FROM [dbo].[PROJETOS]");
-		} catch(SQLException e)
-		{
+		} catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		

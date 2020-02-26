@@ -25,7 +25,7 @@ import threads.PendenciasCheck;
 
 public class Executar {
 
-	public final static String VERSAO = "1.2.9";
+	public final static String VERSAO = "1.3.0";
 	
 	static boolean terminal;
 	static boolean adm;

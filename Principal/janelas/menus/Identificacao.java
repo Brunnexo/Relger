@@ -125,6 +125,13 @@ public class Identificacao extends JFrame
 		cracha.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_F1) {
+					try {
+						Runtime.getRuntime().exec("C:\\Program Files\\Common Files\\eDrawings2020\\eDrawings.exe");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
 				if (e.getKeyCode() == KeyEvent.VK_F10) {
 					try {
 						Runtime.getRuntime().exec("explorer.exe");

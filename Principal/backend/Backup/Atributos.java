@@ -22,9 +22,7 @@ public class Atributos
 	final static int TEMPO_HORA_EXTRA_DIARIA = 60;
 
 	//Atributos do funcionário
-	private String nomeFunc = new String();
 
-	private int crachaFunc;
 
 	private boolean ele, mec, prog, eng, proj, adm;
 
@@ -143,18 +141,6 @@ public class Atributos
 	public void setMontadora(int montadora) {
 		this.montadora = montadora;
 	}
-	public String getNomeFunc() {
-		return nomeFunc;
-	}
-	public void setNomeFunc(String nomeFunc) {
-		this.nomeFunc = nomeFunc;
-	}
-	public int getCrachaFunc() {
-		return crachaFunc;
-	}
-	public void setCrachaFunc(int crachaFunc) {
-		this.crachaFunc = crachaFunc;
-	}
 	public boolean isEle() {
 		return ele;
 	}
@@ -204,6 +190,7 @@ public class Atributos
 		this.mensalista = mensalista;
 	}
 
+<<<<<<< Updated upstream:Principal/backend/Backup/Atributos.java
 	public void escreveValores(ResultSet rs)
 	{
 		try {
@@ -222,6 +209,18 @@ public class Atributos
 			}
 		} catch (SQLException ex) {System.out.println(ex.getMessage());}
 	}
+=======
+	//Relacionamento entre janelas
+	public void voltar_funcoes() {
+		this.tAdm = false;
+		this.tEle = false;
+		this.tEng = false;
+		this.tMec = false;
+		this.tProj = false;
+		this.tProg = false;
+	}
+
+>>>>>>> Stashed changes:Principal/backend/Atributos.java
 	public void voltar_projetos()
 	{
 		this.montadora = 0;
@@ -330,6 +329,7 @@ public class Atributos
 		this.descTrabalho = servico;
 	}
 
+<<<<<<< Updated upstream:Principal/backend/Backup/Atributos.java
 	//Funcionamento de data
 	public String dataCondicional()
 	{
@@ -425,6 +425,8 @@ public class Atributos
 		
 	}
 
+=======
+>>>>>>> Stashed changes:Principal/backend/Atributos.java
 	public static String ultimoDiaUtil()
 	{
 		//Define se há registro de hora extra agendada no crachá

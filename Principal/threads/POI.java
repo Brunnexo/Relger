@@ -9,21 +9,17 @@ public class POI {
 	public boolean finalizado = false;
 	SwingWorker lerPlanilhas;
 	
-	public POI()
-	{
-		lerPlanilhas = new SwingWorker()
-		{
+	public POI() {
+		lerPlanilhas = new SwingWorker() {
 			@Override
-			protected Object doInBackground() throws Exception
-			{
+			protected Object doInBackground() throws Exception {
 				executando = true;
-				threads.POISRs.LerPlanilha(JCIFS.configurarEndereco(false));
-				threads.POIProjetos.LerPlanilha(JCIFS.configurarEndereco(false));
+				threads.POISRs.LerPlanilha(JCIFS.sharedFile);
+				threads.POIProjetos.LerPlanilha(JCIFS.sharedFile);
 				return null;
 			}
 
-			protected void done()
-			{
+			protected void done() {
 				finalizado = true;
 			}
 		};

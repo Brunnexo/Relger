@@ -22,9 +22,9 @@
 
 [dominio]	CORP
 [usuario]	zTzMexqvWI0Jf/0cN62iCQ==
-[senha]		e9CSXzAvdhfNYqJBn4aNdw==
+[senha]		bjHqtOn+g0Vm+6nasXHXaw==
 [endereco]	ju-file01
-[caminho]	/manutencao/ENGENHARIA DE AUTOMAÇÃO/Administração/Controle de horas/Planilhas de apontamento/2019/
+[caminho]	/manutencao/ENGENHARIA DE AUTOMAÇÃO/Administração/Controle de horas/Planilhas de apontamento/2020/
 [arquivo]	Planilha de Relação de Projetos.xlsx
 
 [::]

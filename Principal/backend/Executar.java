@@ -1,51 +1,35 @@
 package backend;
 
+import java.awt.TrayIcon.MessageType;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
-import janelas.Movimentos;
-import janelas.Notificacao;
-import janelas.Progresso;
-import janelas.menus.Identificacao;
-import janelas.menus.Inicio;
-import mssql.Funcionarios;
-import mssql.Relatorios;
-import rede.Conn;
-import rede.JCIFS;
-import threads.ModCheck;
-import threads.PendenciasCheck;
+import janelas.SystemTrayNotification;
 
 public class Executar {
 
+<<<<<<< Updated upstream
 	public final static String VERSAO = "1.2.7";
+=======
+	public final static String VERSAO = "1.3.2";
+>>>>>>> Stashed changes
 	
-	static boolean terminal;
-	static boolean adm;
-	static boolean servidor;
-
 	static boolean JCIFSConectado;
 	static boolean SQLConectado;
 
+<<<<<<< Updated upstream
 	public static void main(String[] e) throws IOException, InterruptedException, ExecutionException, SQLException
 	{
+=======
+	public static void main(String[] e) throws IOException, InterruptedException, ExecutionException, SQLException {
+		//Altera a aparência da janela
+>>>>>>> Stashed changes
 		LookAndFeel.alterar("Nimbus");
+		SystemTrayNotification.notifyTray("Conectando com o servidor...", "O tempo depende da qualidade da conexão", MessageType.INFO);
 		
-		Movimentos mov = new Movimentos();
-		mov.esmaecer(new Progresso("Conectando", "Conectando com o servidor...<br />O tempo depende da qualidade da conexão").mostrar(), true);
-
-		JCIFSConectado = JCIFS.getConnection();
-		SQLConectado = Conn.getConnection();
-
-		mov.fechar();
 		
+<<<<<<< Updated upstream
 		config();
 
 		boolean conectado = (JCIFSConectado && SQLConectado);
@@ -173,5 +157,7 @@ public class Executar {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+=======
+>>>>>>> Stashed changes
 	}
 }

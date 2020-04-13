@@ -14,6 +14,7 @@ public class Colaborador {
 	private char tipo;
 	private boolean[] funcoes;
 	
+<<<<<<< Updated upstream
 	private int tempoTrabalhado;
 	private int tempoExtraTrabalhado;
 	
@@ -54,6 +55,8 @@ public class Colaborador {
 		}
 		this.atividade = new Atividade();
 	}
+=======
+>>>>>>> Stashed changes
 	// CRACHA
 	/**
 	 * @param Crachá do colaborador

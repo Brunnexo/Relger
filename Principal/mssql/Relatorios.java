@@ -23,11 +23,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.microsoft.sqlserver.jdbc.SQLServerResultSet;
 
-import backend.Colaborador;
 import backend.Tempo;
 import janelas.Movimentos;
 import janelas.Notificacao;
 import janelas.PendenciasNotificacao;
+import objetos.Colaborador;
 import rede.Conn;
 
 public class Relatorios {

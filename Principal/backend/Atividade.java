@@ -1,16 +1,16 @@
 package backend;
 
 public class Atividade {
-
+	
 	// CATEGORIAS
-	private String[] catAdm = {
+	public static String[] catAdm = {
 			"CONTROLE",
 			"DOCUMENTAÇÃO",
 			"ORÇAMENTO E GESTÃO",
 			"RETRABALHOS E MELHORIAS",
 			"GERAL"
 	};
-	private String[] catProj = {
+	public static String[] catProj = {
 			"DESENVOLVIMENTO",
 			"VISITA TÉCNICA",
 			"ELABORAÇÃO",
@@ -19,7 +19,7 @@ public class Atividade {
 			"RETRABALHOS E MELHORIAS",
 			"GERAL"
 	};
-	private String[] catEng = {
+	public static String[] catEng = {
 			"DESENVOLVIMENTO",
 			"VISITA TÉCNICA",
 			"ELABORAÇÃO",
@@ -28,7 +28,7 @@ public class Atividade {
 			"RETRABALHOS E MELHORIAS",
 			"GERAL"
 	};
-	private String[] catEle = {
+	public static String[] catEle = {
 			"MONTAGEM",
 			"TESTES",
 			"IDENTIFICAÇÃO",
@@ -38,7 +38,7 @@ public class Atividade {
 			"RETRABALHOS E MELHORIAS",
 			"GERAL"
 	};
-	private String[] catProg = {
+	public static String[] catProg = {
 			"PROGRAMAÇÃO",
 			"PROJETO ELÉTRICO",
 			"DOCUMENTAÇÃO",
@@ -47,7 +47,7 @@ public class Atividade {
 			"RETRABALHOS E MELHORIAS",
 			"GERAL"
 	};
-	private String[] catMec = {
+	public static String[] catMec = {
 			"MONTAGEM",
 			"USINAGEM",
 			"AJUSTES",
@@ -60,14 +60,14 @@ public class Atividade {
 	};
 
 	//SUB-CATEGORIAS
-	private String[][] subCatAdm = {
+	public static String[][] subCatAdm = {
 			{"CONTROLE DE COMPRAS", "CONTROLE DE DEMANDA", "CONTROLE DE HORAS"},
 			{"DOCUMENTAÇÃO DE MÁQUINA", "DOCUMENTAÇÃO", "PROJETO"},
 			{"ORÇAMENTO", "GESTÃO DE PROJETO", "FOLLOW UP E DEMANDA"},
 			{"RETRABALHO INTERNO", "RETRABALHO EXTERNO", "MELHORIAS"},
 			{"TESTES E PROTÓTIPOS", "MANUTENÇÃO", "ALMOXARIFADO", "5S", "NÃO PRODUTIVOS", "AUSÊNCIA"}
 	};
-	private String[][] subCatProj = {
+	public static String[][] subCatProj = {
 			{"DESENVOLVIMENTO DE PROJETO", "CONTROLE DE PROJETO", "LISTA DE PEÇAS", "DESIGN REVIEW"},
 			{"VISITA TÉCNICA"},
 			{"ELABORAÇÃO DE TERMO DE ABERTURA", "ELABORAÇÃO DE ESCOPO"},
@@ -76,7 +76,7 @@ public class Atividade {
 			{"RETRABALHO INTERNO", "RETRABALHO EXTERNO", "MELHORIAS"},
 			{"TESTES E PROTÓTIPOS", "MANUTENÇÃO", "ALMOXARIFADO", "5S", "NÃO PRODUTIVOS", "AUSÊNCIA"}
 	};
-	private String[][] subCatEng = {
+	public static String[][] subCatEng = {
 			{"DESENVOLVIMENTO DE PROJETO", "CONTROLE DE PROJETO", "LISTA DE PEÇAS", "DESIGN REVIEW"},
 			{"VISITA TÉCNICA"},
 			{"ELABORAÇÃO DE TERMO DE ABERTURA", "ELABORAÇÃO DE ESCOPO"},
@@ -86,7 +86,7 @@ public class Atividade {
 			{"TESTES E PROTÓTIPOS", "MANUTENÇÃO", "ALMOXARIFADO", "5S", "NÃO PRODUTIVOS", "AUSÊNCIA"}
 			//[7]
 	};
-	private String[][] subCatEle = {
+	public static String[][] subCatEle = {
 			{"MONTAGEM DE PAINEL ELÉTRICO", "MONTAGEM DE MÁQUINA", "MONTAGEM GERAL"},
 			{"TESTES"},
 			{"IDENTIFICAÇÃO DE MÁQUINAS", "IDENTIFICAÇÃO DE PAINEL ELÉTRICO"},
@@ -96,7 +96,7 @@ public class Atividade {
 			{"RETRABALHO INTERNO", "RETRABALHO EXTERNO", "MELHORIAS"},
 			{"TESTES E PROTÓTIPOS", "MANUTENÇÃO", "ALMOXARIFADO", "5S", "NÃO PRODUTIVOS", "AUSÊNCIA"}
 	};
-	private String[][] subCatProg = {
+	public static String[][] subCatProg = {
 			{"PROGRAMAÇÃO", "DESENVOLVIMENTO DE PROGRAMA", "AJUSTE DE PROGRAMA", "AUXÍLIO EM PROGRAMAÇÃO", "REALIZAÇÃO DE BACKUP"},
 			{"PROJETO ELÉTRICO", "CORREÇÃO DE PROJETO ELÉTRICO"},
 			{"DOCUMENTAÇÃO"},
@@ -105,7 +105,7 @@ public class Atividade {
 			{"RETRABALHO INTERNO", "RETRABALHO EXTERNO", "MELHORIAS"},
 			{"TESTES E PROTÓTIPOS", "MANUTENÇÃO", "ALMOXARIFADO", "5S", "NÃO PRODUTIVOS", "AUSÊNCIA"}
 	};
-	private String[][] subCatMec = {
+	public static String[][] subCatMec = {
 			{"MONTAGEM GERAL", "MONTAGEM DE SISTEMA PNEUMÁTICO", "MONTAGEM DE COMPONENTES"},
 			{"USINAGEM FRESADORA", "USINAGEM TORNO", "USINAGEM FURADEIRA", "USINAGEM GERAL"},
 			{"AJUSTES"},
@@ -116,7 +116,4 @@ public class Atividade {
 			{"RETRABALHO INTERNO", "RETRABALHO EXTERNO", "MELHORIAS"},
 			{"TESTES E PROTÓTIPOS", "MANUTENÇÃO", "ALMOXARIFADO", "5S", "NÃO PRODUTIVOS", "AUSÊNCIA"}
 	};
-
-	public Atividade() {
-	}
 }

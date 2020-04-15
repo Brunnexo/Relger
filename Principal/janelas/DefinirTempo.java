@@ -16,14 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import backend.Atributos;
-
-import janelas.interacao.Resumo;
-import janelas.interacao.SelecionarAtividade;
-import janelas.menus.DescricoesSub;
-import janelas.menus.Identificacao;
-import janelas.menus.Inicio;
-import janelas.selecao.Projeto;
-import janelas.selecao.SR;
+import janelas.principais.Inicio;
 import mssql.Extra;
 import mssql.Relatorios;
 import java.awt.event.KeyAdapter;
